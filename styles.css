@@ -915,9 +915,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .tag.write span{transition:opacity .22s ease,transform .22s ease}
 .tag.write span.swap{opacity:0;transform:translateY(4px)}
 @media (prefers-reduced-motion:reduce){.tag.write span{transition:none}}
-/* focus: border colour only, no halo — Figma 2642:15819 */
-.merged{transition:border-color .35s ease,box-shadow .35s ease}
-.merged.attn,.scroll.spot #checkin .merged{box-shadow:none!important;border-color:var(--brand)!important}
+/* focus = double line — Figma 2642:15819 / ring 2687:16048.
+   Inner: the card's own 1.5px brand border. Outer: a 3px rgba(239,105,57,.22) ring
+   sitting 5px out (outline-offset 2 + 3px width = outer edge at 5px), radius 21. */
 @media (prefers-reduced-motion:reduce){.merged{transition:none}}
 
 /* calmer: one gentle animation only (coin drop) */
@@ -1097,8 +1097,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .rh-t .l1{font-size:14px!important;font-weight:500!important}
 .rh-t .l2{font-size:16px!important;font-weight:500!important;line-height:24px!important}
 .rh-t .l2 .amt{font-size:18px!important;font-weight:700!important}
-/* Figma 2638:16710 — check-in question is 14 Medium / 24, Gray/900 */
-.merged .ck .q,.merged .ck-ask .q,.merged.intro .ck-ask .q{font-size:14px!important;line-height:24px!important;font-weight:500!important;color:#101828!important}
+/* Figma 2638:16710 — check-in question is 14 Medium / 20, Gray/900 */
+.merged .ck .q,.merged .ck-ask .q,.merged.intro .ck-ask .q{font-size:14px!important;line-height:20px!important;font-weight:500!important;color:#101828!important}
 /* chips hug content */
 .moods3{display:flex!important;gap:6px!important;flex-wrap:nowrap}
 .moods3 .tag{flex:none!important;height:40px!important;border-radius:20px!important;padding:0 10px!important;gap:4px!important}
@@ -1135,3 +1135,18 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .toast,.stoast{top:auto!important;bottom:calc(var(--navh) + 12px)!important}
 .stoast{transform:translateY(12px)}
 .stoast.show{transform:none}
+
+/* ---- focus state = double line (Figma 2642:15819, ring 2687:16048) ----
+   Inner line = the card's own 1.5px brand border.
+   Outer line = 3px rgba(239,105,57,.22) sitting 2px out, so its outer edge lands at 5px
+   (the Figma ring is inset:-5px with a 3px stroke).
+   Stacked box-shadow spreads, not outline: .merged.attn at styles.css:771 and :813 already
+   set box-shadow !important, so this has to be the last .merged rule in the file to win.
+   The transparent first ring is the 2px gap. Do not move this block up. */
+.merged{transition:border-color .35s ease,box-shadow .35s ease}
+.merged.attn,.scroll.spot #checkin .merged{
+  border:1.5px solid var(--brand)!important;
+  box-shadow:0 0 0 2px transparent,0 0 0 5px rgba(239,105,57,.22)!important;
+  animation:none!important;
+}
+@media (prefers-reduced-motion:reduce){.merged{transition:none}}
