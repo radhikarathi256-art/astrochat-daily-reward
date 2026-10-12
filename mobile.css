@@ -6,11 +6,10 @@
 .ham:active{background:rgba(0,0,0,.06)}
 /* Real phone: full screen, no fake status bar, respect notch */
 /* fake status bar removed: the real phone status bar is tinted via theme-color (mobile.js) */
-/* iOS standalone ignores theme-color, so the bar is black-translucent and overlays the
-   page. Paint the safe-area strip ourselves and keep it peach even once .head turns
-   white on scroll, so the clock/battery stay readable. */
+/* Keep the status-bar style "default". black-translucent makes env(safe-area-inset-top)
+   non-zero, which shifts the viewport down (bottom nav stops reaching the bottom) and
+   breaks the .push translateY(-130%) hide. Not worth it just to tint the bar. */
 .head{padding-top:env(safe-area-inset-top,0px)}
-.head::before{content:"";position:absolute;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:#FDBA96}
 .scroll .hero{padding-top:calc(62px + env(safe-area-inset-top,0px))!important}
 @media (max-width:600px){
   html,body{background:#fff;overscroll-behavior:none}
