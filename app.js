@@ -7,21 +7,21 @@ document.querySelectorAll('[data-fig]').forEach(e=>{e.outerHTML=FIG[e.dataset.fi
 const FLOWS={
   claim:{title:'Check-in + reward in one card',sub:'Streak and check-in sit together below Your Experts. Answer, claim, set the reminder.',
     steps:[['A1','Today · check-in card below experts'],['A2','Answer → Hemali prediction'],['A3','Claim sheet (soft ask)'],['A4','Android permission'],['A5','Allowed · streak celebration'],['A6','Not allowed · reminder off'],['A7','Okay · reminder on'],['A8','Next morning · push notification']]},
-  missed:{title:'Missed day · streak restart',sub:'The grey missed sheet shows only the first time a day is missed (once). Open this flow again to see a later miss: no sheet, the card just restarts at Day 1 (₹5).',
+  missed:{title:'Missed day · streak restart',sub:'The grey missed sheet shows only the first time a day is missed (once). Open this flow again to see a later miss: no sheet, the card just restarts at Day 1 (₹7).',
     steps:[['B1','App open · Missed sheet (first miss only)'],['B2','Streak restarted (Day 1)'],['B3','Answer → Hemali prediction'],['B4','Claim sheet · 1 out of 7 day streak'],['B5','Android permission'],['B6','Celebration sheet / off'],['B7','Okay · reminder on'],['B8','Next morning · push notification']]},
 };
-FLOWS.j1={title:'Day 1 · first check-in',sub:'New user sees one simple ask: answer 1 question, get ₹15. The 7-day streak is shown only after they answer, with a reminder for tomorrow.',
-  steps:[['J0','App open · Daily reward intro sheet'],['J1','Today · "Daily reward" card, no streak yet'],['J2','Answer → Hemali prediction'],['J3','₹15 added + streak revealed'],['J4','Android permission → toast "Reminder set"'],['J6','Today · streak now visible']]};
+FLOWS.j1={title:'Day 1 · first check-in',sub:'New user sees one simple ask: answer 1 question, get ₹7. The 7-day streak is shown only after they answer, with a reminder for tomorrow.',
+  steps:[['J0','App open · Daily reward intro sheet'],['J1','Today · "Daily reward" card, no streak yet'],['J2','Answer → Hemali prediction'],['J3','₹7 added + streak revealed'],['J4','Android permission → toast "Reminder set"'],['J6','Today · streak now visible']]};
 FLOWS.j2={title:'Day 2 · streak + question',sub:'A toast above the bottom nav shows Day 2 progress (auto-hides in 5s). The card shows the 7 days with today\'s question.',
-  steps:[['K2','Today · Day 2 toast + question'],['K3','Answer → Hemali prediction'],['K4','Claim · ₹7 added, ₹9 tomorrow'],['K5','Done · tomorrow ₹9']]};
+  steps:[['K2','Today · Day 2 toast + question'],['K3','Answer → Hemali prediction'],['K4','Claim · ₹9 added, ₹11 tomorrow'],['K5','Done · tomorrow ₹11']]};
 FLOWS.j3={title:'Not answering · 3 tries',sub:'If a new user does not answer, we try 3 times, then stop. Use “Next try →” to move through them.',
   steps:[['N1','Try 1 · intro sheet + card, user leaves'],['N2','Try 2 · next app open, nudge sheet'],['N3','Try 3 · next morning push'],['N4','Still no answer · stop nudging'],['N5','If they answer → reward + streak revealed']]};
 FLOWS.type={title:'Type own answer · keyboard',sub:'Tap the reply box, type with the keyboard, send. Then claim and set the reminder.',
   steps:[['C1','Tap “Apne shabdon mein likhein”'],['C2','Keyboard up · composer focused'],['C3','Typing answer'],['C4','Sent → Hemali typing'],['C5','Prediction → claim sheet'],['C6','Android permission'],['C7','Allowed · streak celebration'],['C8','Okay · reminder on'],['C9','Next morning · push notification']]};
 const SCEN={
-  day1:{date:'Monday, 5 Oct · Krishna Dashami',labels:['Aaj','Tue 6','Wed 7','Thu 8','Fri 9','Sat 10','Sun 11'],amts:[15,5,7,9,11,13,15],done:0,today:0,missed:-1,todayLabel:'Mon 5',before:0,after:1,reward:15,next:5},
-  normal:{date:'Monday, 5 Oct · Krishna Dashami',labels:['Sat 3','Sun 4','Aaj','Tue 6','Wed 7','Thu 8','Fri 9'],amts:[15,5,7,9,11,13,15],done:2,today:2,missed:-1,todayLabel:'Mon 5',before:2,after:3,reward:7,next:9},
-  reset:{date:'Wednesday, 7 Oct · Ekadashi',labels:['Wed 7','Thu 8','Fri 9','Sat 10','Sun 11','Mon 12','Tue 13'],amts:[15,5,7,9,11,13,15],done:0,today:0,missed:-1,todayLabel:'Wed 7',before:0,after:1,reward:5,next:7}
+  day1:{date:'Monday, 5 Oct · Krishna Dashami',labels:['Aaj','Tue 6','Wed 7','Thu 8','Fri 9','Sat 10','Sun 11'],amts:[7,9,11,13,15,17,20],done:0,today:0,missed:-1,todayLabel:'Mon 5',before:0,after:1,reward:7,next:9},
+  normal:{date:'Monday, 5 Oct · Krishna Dashami',labels:['Sat 3','Sun 4','Aaj','Tue 6','Wed 7','Thu 8','Fri 9'],amts:[7,9,11,13,15,17,20],done:2,today:2,missed:-1,todayLabel:'Mon 5',before:2,after:3,reward:11,next:13},
+  reset:{date:'Wednesday, 7 Oct · Ekadashi',labels:['Wed 7','Thu 8','Fri 9','Sat 10','Sun 11','Mon 12','Tue 13'],amts:[7,9,11,13,15,17,20],done:0,today:0,missed:-1,todayLabel:'Wed 7',before:0,after:1,reward:7,next:9}
 };
 const MOODS=[
   {k:'Achha',f:['','#12B76A','','','M6.8 12c1.8 1.8 4.6 1.8 6.4 0'],a:'Aaj Rahul ke saath baat aasaani se hogi. Shaam ko ek chhota sa plan banaiye, rishta aur mazboot hoga.'},
@@ -51,10 +51,13 @@ const ICON={
 /* ---------- state ---------- */
 let S;
 const PICK={v:'21',d:'1'};
-['1','2','3','4','5','6','7'].forEach(k=>{const d=+k;const A=[15,5,7,9,11,13,15];const dates=['Mon 5','Tue 6','Wed 7','Thu 8','Fri 9','Sat 10','Sun 11'];SCEN['d'+k]={date:'Monday, 5 Oct · Krishna Dashami',labels:dates,amts:A,done:d-1,today:d-1,missed:-1,todayLabel:dates[d-1],before:d-1,after:d,reward:A[d-1],next:d<7?A[d]:5,week:d===7};});
-// Figma 2570:16434 (Day=1, State=Missed) — a restarted streak uses the same ladder as a fresh
-// day 1, so day 1 is worth ₹15 again, not ₹5. Tomorrow is ₹5.
-SCEN.d1.first=true;const WB=0;SCEN.reset.reward=15;SCEN.reset.next=5;SCEN.reset.prior=15;
+// Reward ladder (PRD): day 1-7 = 7,9,11,13,15,17,20. Monotonic, so day 7 is the peak and a
+// new cycle starts back at ₹7.
+const LADDER=[7,9,11,13,15,17,20];
+['1','2','3','4','5','6','7'].forEach(k=>{const d=+k;const A=LADDER;const dates=['Mon 5','Tue 6','Wed 7','Thu 8','Fri 9','Sat 10','Sun 11'];SCEN['d'+k]={date:'Monday, 5 Oct · Krishna Dashami',labels:dates,amts:A,done:d-1,today:d-1,missed:-1,todayLabel:dates[d-1],before:d-1,after:d,reward:A[d-1],next:d<7?A[d]:A[0],week:d===7};});
+// Figma 2570:16434 (Day=1, State=Missed) — a restarted streak is just a fresh day 1, so it
+// pays ₹7 again and tomorrow is ₹9.
+SCEN.d1.first=true;const WB=0;SCEN.reset.reward=LADDER[0];SCEN.reset.next=LADDER[1];SCEN.reset.prior=LADDER[0];
 const earnBox=(D,total)=>`<div class="earn2"><div><span>Earned till now</span><b>₹${total+(D.prior||0)}</b></div></div>`;
 try{const q=new URLSearchParams(location.search);if(q.get('v'))PICK.v=q.get('v');if(q.get('d'))PICK.d=q.get('d');}catch(e){}
 function fresh(flow){
@@ -353,7 +356,7 @@ function start(flow){
   if(flow==='j3'){setStep('N1');setTimeout(()=>openSheet('onboard'),400);}
   if(flow==='j2'){setStep('K2');setTimeout(showStreakToast,600);}
   $('jnext').hidden=flow!=='j3';
-  if(flow==='missed'){if(!MISSED_SEEN){MISSED_SEEN=true;setStep('B1');setTimeout(()=>openSheet('missed'),350);}else{setStep('B2');setTimeout(()=>{toast('You missed a day. Starting again from ₹5');goCheck();},350);}}
+  if(flow==='missed'){if(!MISSED_SEEN){MISSED_SEEN=true;setStep('B1');setTimeout(()=>openSheet('missed'),350);}else{setStep('B2');setTimeout(()=>{toast('You missed a day. Starting again from ₹7');goCheck();},350);}}
   if(flow==='type'){setTimeout(()=>{goCheck();setTimeout(()=>{const f=document.querySelector('.write');if(f)f.classList.add('hint');},500);},300);}
   onScroll();
   try{history.replaceState(null,'','#'+flow);}catch(e){}
@@ -370,7 +373,7 @@ function nextTry(){
   if(S.claimed||S.phase!=='ask'){toast('Already answered · no more nudges');return;}
   const st=S.step;
   if(st==='N1'){closeSheet();attn(true);const sc=$('scroll');sc.scrollTop=0;setTimeout(()=>{openSheet('nudge');setStep('N2');},300);return;}
-  if(st==='N2'){closeSheet();setTimeout(()=>pushMsg('Answer 1 question, get ₹15 today 🎁','Takes 5 seconds. Money goes to your wallet.',()=>{goCheck();},'N3'),400);return;}
+  if(st==='N2'){closeSheet();setTimeout(()=>pushMsg('Answer 1 question, get ₹7 today 🎁','Takes 5 seconds. Money goes to your wallet.',()=>{goCheck();},'N3'),400);return;}
   if(st==='N3'){$('push').classList.remove('show');S.onPush=null;setStep('N4');toast('3 tries done · we stop nudging. Card stays on Today.');return;}
   toast('No more tries · card stays quietly on Today');
 }
