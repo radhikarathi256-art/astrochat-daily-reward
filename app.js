@@ -12,7 +12,7 @@ const FLOWS={
 };
 FLOWS.j1={title:'Day 1 · first check-in',sub:'New user sees one simple ask: answer 1 question, get ₹15. The 7-day streak is shown only after they answer, with a reminder for tomorrow.',
   steps:[['J0','App open · Daily reward intro sheet'],['J1','Today · "Daily reward" card, no streak yet'],['J2','Answer → Hemali prediction'],['J3','₹15 added + streak revealed'],['J4','Android permission → toast "Reminder set"'],['J6','Today · streak now visible']]};
-FLOWS.j2={title:'Day 2 · streak + question',sub:'A toast at the top shows Day 2 progress (auto-hides in 5s). The card shows the 7 days with today\'s question.',
+FLOWS.j2={title:'Day 2 · streak + question',sub:'A toast above the bottom nav shows Day 2 progress (auto-hides in 5s). The card shows the 7 days with today\'s question.',
   steps:[['K2','Today · Day 2 toast + question'],['K3','Answer → Hemali prediction'],['K4','Claim · ₹7 added, ₹9 tomorrow'],['K5','Done · tomorrow ₹9']]};
 FLOWS.j3={title:'Not answering · 3 tries',sub:'If a new user does not answer, we try 3 times, then stop. Use “Next try →” to move through them.',
   steps:[['N1','Try 1 · intro sheet + card, user leaves'],['N2','Try 2 · next app open, nudge sheet'],['N3','Try 3 · next morning push'],['N4','Still no answer · stop nudging'],['N5','If they answer → reward + streak revealed']]};
@@ -360,7 +360,7 @@ function attn(on){S.attn=on;render();}
 var MISSED_SEEN=false;
 function hideStreakToast(){const t=$('stoast');if(!t)return;t.classList.remove('show');setTimeout(()=>t.hidden=true,250);}
 function showStreakToast(){if(S.flow!=='j2'||S.claimed||S.phase!=='ask')return;const D=SCEN[S.scen];const n=D.before;const t=$('stoast');
-  t.innerHTML=`<span class="st-ic">🔥</span><div class="st-b"><p><b>Day ${n+1}:</b> Answer today to get ₹${D.reward}</p><div class="st-seg">${[0,1,2,3,4,5,6].map(i=>`<i class="${i<n?'on':i===n?'now':''}"></i>`).join('')}</div></div><button type="button" class="st-go" data-act="stGo">Answer</button><button type="button" class="st-x" data-act="stClose" aria-label="Close">✕</button>`;
+  t.innerHTML=`<div class="st-l"><span class="st-ic">🔥</span><div class="st-b"><p><b>Day ${n+1}:</b> Answer to get ₹${D.reward}</p><div class="st-seg">${[0,1,2,3,4,5,6].map(i=>`<i class="${i<n?'on':i===n?'now':''}"></i>`).join('')}</div></div></div><div class="st-r"><button type="button" class="st-go" data-act="stGo">Answer</button><button type="button" class="st-x" data-act="stClose" aria-label="Close">✕</button></div>`;
   t.hidden=false;requestAnimationFrame(()=>t.classList.add('show'));clearTimeout(t._h);t._h=setTimeout(hideStreakToast,5000);}
 function nextTry(){
   if(S.claimed||S.phase!=='ask'){toast('Already answered · no more nudges');return;}
