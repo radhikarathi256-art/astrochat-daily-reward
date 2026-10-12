@@ -990,7 +990,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 /* dotted connector — Figma 2636:16628. Anchored to the li, not the icon: top:100% on the
    icon resolves against its padding box, so the dashes started behind the icon border. */
 .ob-steps li{position:relative}
-.ob-steps li:not(:last-child)::after{content:"";position:absolute;left:12px;top:100%;height:14px;border-left:1.5px dashed #D0D5DD;transform:translateX(-50%)}
+/* Figma 2636:16628 — 10px connector centred on the number. A `border-left:dashed` on a
+   zero-width box collapses to a near-invisible hairline, so paint the dashes with a
+   repeating gradient instead: 3px dash / 3px gap, 1.5px wide. */
+.ob-steps li:not(:last-child)::after{content:"";position:absolute;left:12px;top:calc(100% + 2px);width:1.5px;height:10px;transform:translateX(-50%);background:repeating-linear-gradient(180deg,#D0D5DD 0 3px,transparent 3px 6px)}
 .intro-strip{background:none!important;padding:0!important;margin:0 -8px!important;align-self:stretch}
 .intro-strip .m-top,.intro-strip .merged-strip{background:none!important}
 .ob-steps{align-self:center;width:auto!important}

@@ -161,7 +161,9 @@ function askHTML(V,D,st){
 PICK.ih='4';
 const COIN=`<span class="intro-coin" aria-hidden="true">₹</span>`;
 function rhHead(D,claimed){const n=dayNo(D);const dp=n>1?`Day ${n} · `:'';const a=`<span class="amt">₹${D.reward}</span>`;
-  const t=claimed?`${dp}${a} added to your wallet`:`<span class="l1">${dp}Answer 1 question</span><span class="l2">Get ${a} in your wallet</span>`;
+  // Figma 2638:16733 — Day 2+ line 1 is "Day N · Answer to get"; day 1 stays "Answer 1 question".
+  const l1=n>1?`${dp}Answer to get`:'Answer 1 question';
+  const t=claimed?`${dp}${a} added to your wallet`:`<span class="l1">${l1}</span><span class="l2">Get ${a} in your wallet</span>`;
   return `<div class="hero4 rh"><div class="rh-l">${S.attn&&!claimed?'<small class="rh-lbl warn">Still waiting for you</small>':''}<b class="rh-t">${t}</b></div>${(!claimed&&D.first)?STACK:''}</div>`;}
 function introPanel(D){
   if(PICK.ih==='4')return rhHead(D,false);
