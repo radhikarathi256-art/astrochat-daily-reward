@@ -52,7 +52,9 @@ const ICON={
 let S;
 const PICK={v:'21',d:'1'};
 ['1','2','3','4','5','6','7'].forEach(k=>{const d=+k;const A=[15,5,7,9,11,13,15];const dates=['Mon 5','Tue 6','Wed 7','Thu 8','Fri 9','Sat 10','Sun 11'];SCEN['d'+k]={date:'Monday, 5 Oct · Krishna Dashami',labels:dates,amts:A,done:d-1,today:d-1,missed:-1,todayLabel:dates[d-1],before:d-1,after:d,reward:A[d-1],next:d<7?A[d]:5,week:d===7};});
-SCEN.d1.first=true;const WB=0;SCEN.reset.amts=[5,5,7,9,11,13,15];SCEN.reset.reward=5;SCEN.reset.next=5;SCEN.reset.prior=15;
+// Figma 2570:16434 (Day=1, State=Missed) — a restarted streak uses the same ladder as a fresh
+// day 1, so day 1 is worth ₹15 again, not ₹5. Tomorrow is ₹5.
+SCEN.d1.first=true;const WB=0;SCEN.reset.reward=15;SCEN.reset.next=5;SCEN.reset.prior=15;
 const earnBox=(D,total)=>`<div class="earn2"><div><span>Earned till now</span><b>₹${total+(D.prior||0)}</b></div></div>`;
 try{const q=new URLSearchParams(location.search);if(q.get('v'))PICK.v=q.get('v');if(q.get('d'))PICK.d=q.get('d');}catch(e){}
 function fresh(flow){
@@ -263,9 +265,9 @@ function openSheet(type){
     <div class="txt"><h2 id="shTitle">Your ₹${D.reward} is waiting</h2><p>Answer 1 quick question about your day and get ₹${D.reward} straight in your wallet.</p></div>
     <div class="acts"><button class="btn lg" type="button" data-act="nudgeGo">Answer now</button><button class="btn text" type="button" data-act="nudgeLater">Maybe Later</button></div>`;
   if(type==='missed')sh.innerHTML=`<span class="grab"></span><div class="art"><div class="coin-lg grey"><div class="face"><span>₹</span></div>${ICON.crack}</div></div>
-    <div class="txt"><h2 id="shTitle">You missed a day</h2><p>You did not check in yesterday, so your reward starts again from ₹5.</p></div>
-    <div class="prog"><div class="row"><span>Day 1 of 7</span><span>Today: ₹5</span></div><div class="segs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-    <div class="acts"><button class="btn lg" type="button" data-act="missedGo">Restart checkin &amp; get ₹5</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`;
+    <div class="txt"><h2 id="shTitle">You missed a day</h2><p>You did not check in yesterday, so your reward starts again from ₹${D.reward}.</p></div>
+    <div class="prog"><div class="row"><span>Day 1 of 7</span><span>Today: ₹${D.reward}</span></div><div class="segs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="acts"><button class="btn lg" type="button" data-act="missedGo">Restart checkin &amp; get ₹${D.reward}</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`;
   if(type==='reminder'){
     const from=D.missed>=0?D.missed+1:0;let total=0;for(let i=from;i<=D.today;i++)total+=D.amts[i];if(/^d[2-7]$/.test(S.scen))total+=WB;if(!S.claimed)total-=D.reward;
     const sp=[[-26,8,14],[118,0,12],[-14,74,9],[124,60,10]].map(([x,y,s])=>`<i class="spk" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px"></i>`).join('');
