@@ -340,7 +340,6 @@ function start(flow){
   $('stage').hidden=false;$('allDays').hidden=true;
   S=fresh(flow);
   {const t=$('stoast');if(t){t.classList.remove('show');t.hidden=true;}}
-  {const sec=$('checkin'),exp=$('experts');if(exp.compareDocumentPosition(sec)&Node.DOCUMENT_POSITION_PRECEDING)exp.after(sec);}
   document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.flow===flow)));
   $('push').classList.remove('show');$('sheet').className='sheet';KB.classList.remove('show');$('scroll').classList.remove('kb-open');$('scrim').classList.remove('show');$('sys').classList.remove('show');$('bal').textContent='₹0';
   render();renderSteps();
@@ -355,9 +354,9 @@ function start(flow){
   onScroll();
   try{history.replaceState(null,'','#'+flow);}catch(e){}
 }
-function attn(on){S.attn=on;const sec=$('checkin');const exp=document.querySelector('[aria-label="Your experts"]')||$('experts');
-  if(on&&exp&&sec.compareDocumentPosition(exp)&Node.DOCUMENT_POSITION_PRECEDING)exp.parentNode.insertBefore(sec,exp);
-  render();}
+// Your Experts always stays above Daily reward — the attention state no longer hoists
+// the check-in section above it.
+function attn(on){S.attn=on;render();}
 var MISSED_SEEN=false;
 function hideStreakToast(){const t=$('stoast');if(!t)return;t.classList.remove('show');setTimeout(()=>t.hidden=true,250);}
 function showStreakToast(){if(S.flow!=='j2'||S.claimed||S.phase!=='ask')return;const D=SCEN[S.scen];const n=D.before;const t=$('stoast');
