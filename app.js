@@ -201,7 +201,7 @@ function render(){
   const pending=!S.claimed;const m=$('merged');
   m.className='merged v-'+V+(pending?'':' claimed')+(S.attn&&pending?' attn':'');
   const intro0=S.intro&&!S.claimed;const sh=document.querySelector('#checkin .sh');
-  sh.innerHTML=`<span>Daily reward</span>`+(intro0?'':`<button type="button" class="sh-link ${S.remind?'on':''}" data-act="streakRemind">${S.remind?ICON.check('#667085')+' Reminder on':ICON.bell('#667085')+' Remind me →'}</button>`);
+  sh.innerHTML=`<span>Daily reward</span>`+(intro0?'':`<button type="button" class="sh-link ${S.remind?'on':''}" data-act="streakRemind">${S.remind?ICON.check('#667085')+' Reminder On':ICON.bell('#667085')+' Remind Me →'}</button>`);
   const intro=S.intro&&!S.claimed;m.classList.toggle('intro',intro);
   const so=$('streakOut');if(so)so.innerHTML=intro?'':`<div class="merged-strip ${S.claimed?'claimed':''}">${topPanel(V,D,S.claimed,S.scen)}</div>`;
   m.innerHTML=((intro||!S.claimed)?introPanel(D):rhHead(D,true))+'<div class="ck" id="ck"></div>'+((!S.claimed&&D.first)?trustFoot():'')+'<div id="stAction"></div>';
@@ -318,7 +318,7 @@ function sysAnswer(allow){
 /* ---------- check-in ---------- */
 function goCheck(){const sc=$('scroll');const ex=$('experts'),ck=$('checkin');sc.scrollTo({top:Math.max(0,Math.min(ex?ex.offsetTop:1e9,ck.offsetTop)-62),behavior:'smooth'});const c=$('ck');c.classList.remove('flash');void c.offsetWidth;c.classList.add('flash');sc.classList.remove('spot');void sc.offsetWidth;sc.classList.add('spot');clearTimeout(sc._sp);sc._sp=setTimeout(()=>sc.classList.remove('spot'),2600);const st={missed:'B2',claim:'A1',type:'C1',j2:'K2'}[S.flow];if(st)setStep(st);}
 function answer(text,i){
-  hideStreakToast();const SAY=['Achha lag raha hai','Theek-thaak hai','Thoda pareshan hoon'];S.text=(typeof i==='number'&&i<3&&text.split(' ').length<=2)?SAY[i]:text;S.ans=MOODS[i].a;S.phase='typing';renderCk();setStep({missed:'B3',claim:'A2',type:'C4',j1:'J2',j2:'K3',j3:'N5'}[S.flow]);
+  hideStreakToast();S.text=text;S.ans=MOODS[i].a;S.phase='typing';renderCk();setStep({missed:'B3',claim:'A2',type:'C4',j1:'J2',j2:'K3',j3:'N5'}[S.flow]);
   setTimeout(()=>{S.phase='done';renderCk();renderGuide();setTimeout(()=>{openSheet(S.intro?'intro':'claim');setStep({missed:'B4',claim:'A3',type:'C5',j1:'J3',j2:'K4',j3:'N5'}[S.flow]);},400);},1200);
 }
 
