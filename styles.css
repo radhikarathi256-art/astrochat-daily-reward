@@ -1057,12 +1057,16 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .avs i{width:26px;height:26px;border-radius:50%;border:2px solid #fff;margin-left:-8px;display:grid;place-items:center;font:600 12px/1 Inter,sans-serif;font-style:normal}
 .avs i:first-child{margin-left:0}
 
-/* claim sheet earned / missed box — Figma 2669:127068 */
+/* claim sheet earnings box — Figma 2636:16346: total, 7-day bar, tomorrow / day-of-7 */
 .earn2{width:100%;display:flex;flex-direction:column;gap:8px;background:#F9FAFB;border:.6px solid #D0D5DD;border-radius:12px;padding:12px 14px}
-.earn2 div{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.earn2 span{font-size:14px;line-height:20px;font-weight:500;color:#475467}
-.earn2 b{font-size:14px;line-height:20px;font-weight:700;color:#101828;white-space:nowrap}
-.earn2 div:first-child b{color:var(--success)}
+.earn2 .e-top,.earn2 .e-meta{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.earn2 .e-top span{font-size:14px;line-height:20px;font-weight:500;color:#344054}
+.earn2 .e-top b{font-size:18px;line-height:28px;font-weight:700;color:var(--success);white-space:nowrap}
+.earn2 .e-bar{display:flex;gap:4px}
+.earn2 .e-bar i{flex:1;min-width:1px;height:6px;border-radius:3px;background:var(--g200)}
+.earn2 .e-bar i.on{background:#F5A588}
+.earn2 .e-meta span{font-size:12px;line-height:18px;font-weight:500;color:var(--g600);white-space:nowrap}
+.earn2 .e-meta em{font-style:normal;font-size:12px;line-height:18px;font-weight:400;color:#667085;white-space:nowrap}
 .rh-row{display:flex;align-items:baseline;gap:6px}
 .ck .her .b,.merged .her .b{border-color:#D0D5DD!important}
 .avs i{background-size:118%!important;background-position:center!important;border:2px solid #fff!important}

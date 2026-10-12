@@ -58,7 +58,12 @@ const LADDER=[7,9,11,13,15,17,20];
 // Figma 2570:16434 (Day=1, State=Missed) — a restarted streak is just a fresh day 1, so it
 // pays ₹7 again and tomorrow is ₹9.
 SCEN.d1.first=true;const WB=0;SCEN.reset.reward=LADDER[0];SCEN.reset.next=LADDER[1];SCEN.reset.prior=LADDER[0];
-const earnBox=(D,total)=>`<div class="earn2"><div><span>Earned till now</span><b>₹${total+(D.prior||0)}</b></div></div>`;
+// Figma 2636:16346 — earnings box is 3 rows: total, 7-day progress bar, then
+// "Tomorrow +₹x" / "Day n of 7". The bar replaces the old "come back tomorrow" subtitle.
+const earnBox=(D,total,claimed)=>{const done=claimed?D.today+1:D.today;
+  return `<div class="earn2"><div class="e-top"><span>Earned till now</span><b>₹${total+(D.prior||0)}</b></div>`
+    +`<div class="e-bar">${[0,1,2,3,4,5,6].map(i=>`<i class="${i<done?'on':''}"></i>`).join('')}</div>`
+    +`<div class="e-meta"><span>Tomorrow +₹${D.next}</span><em>Day ${D.today+1} of 7</em></div></div>`;};
 try{const q=new URLSearchParams(location.search);if(q.get('v'))PICK.v=q.get('v');if(q.get('d'))PICK.d=q.get('d');}catch(e){}
 function fresh(flow){
   const permPre=$('permAllowed').checked;
@@ -251,8 +256,8 @@ function openSheet(type){
     const from=D.missed>=0?D.missed+1:0;let total=0;for(let i=from;i<=D.today;i++)total+=D.amts[i];if(/^d[2-7]$/.test(S.scen))total+=WB;
     const sp=[[-26,8,14],[118,0,12],[-14,74,9],[124,60,10]].map(([x,y,s])=>`<i class="spk" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px"></i>`).join('');
     sh.innerHTML=`<span class="grab"></span><div class="art"><div class="celebrate">${sp}<div class="coin-lg"><div class="face"><span>₹</span></div></div></div></div>
-    <div class="txt"><h2 id="shTitle">₹${D.reward} added to your wallet</h2><p>Come back tomorrow for ₹${D.next}</p></div>
-    ${earnBox(D,total)}
+    <div class="txt"><h2 id="shTitle">₹${D.reward} added to your wallet</h2></div>
+    ${earnBox(D,total,true)}
     ${S.remind?`<div class="rem-line">Reminder on · we'll remind you tomorrow at 9 AM</div><div class="acts"><button class="btn lg" type="button" data-act="close">Okay</button></div>`
       :`<div class="acts"><button class="btn lg" type="button" data-act="claimRemind">${ICON.bell('#fff')} Set Reminder</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`}`;}
   if(type==='intro'){const P=panelParts(D,true,S.scen);
@@ -275,10 +280,10 @@ function openSheet(type){
     const from=D.missed>=0?D.missed+1:0;let total=0;for(let i=from;i<=D.today;i++)total+=D.amts[i];if(/^d[2-7]$/.test(S.scen))total+=WB;if(!S.claimed)total-=D.reward;
     const sp=[[-26,8,14],[118,0,12],[-14,74,9],[124,60,10]].map(([x,y,s])=>`<i class="spk" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px"></i>`).join('');
     const head=S.claimed?`₹${D.reward} added to your wallet`:'Reminder set';
-    const sub=S.claimed?`Come back tomorrow for ₹${D.next}`:`Check in today to get ₹${D.reward}`;
+    const sub=S.claimed?'':`Check in today to get ₹${D.reward}`;
     sh.innerHTML=`<span class="grab"></span><div class="art"><div class="celebrate">${sp}<div class="coin-lg"><div class="face"><span>₹</span></div></div></div></div>
-    <div class="txt"><h2 id="shTitle">${head}</h2><p>${sub}</p></div>
-    ${earnBox(D,total)}
+    <div class="txt"><h2 id="shTitle">${head}</h2>${sub?`<p>${sub}</p>`:''}</div>
+    ${earnBox(D,total,S.claimed)}
     <div class="rem-line" id="remLine">Reminder set · we'll remind you tomorrow at 9 AM</div>
     <div class="acts"><button class="btn lg" type="button" data-act="close">Okay</button></div>`;}
   $('scrim').classList.add('show');requestAnimationFrame(()=>sh.classList.add('show'));
