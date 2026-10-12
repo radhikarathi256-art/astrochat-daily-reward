@@ -51,8 +51,8 @@
 .dr-tog{display:flex;gap:10px;align-items:center;font-size:14px;color:#344054;padding:6px 2px}
 .dr-tog input{width:18px;height:18px;accent-color:#EF6939}
 @media (prefers-reduced-motion:reduce){.drawer,.dscrim{transition:none}}
-/* overlays that sat under the old 34px fake status bar */
-.stoast{top:calc(22px + env(safe-area-inset-top,0px))!important}
+/* overlays that sat under the old 34px fake status bar.
+   .stoast moved to the bottom (12px above the nav) in styles.css — no top override here. */
 .push{top:calc(8px + env(safe-area-inset-top,0px))!important}
 .ham{border:0}
 .stoast[hidden]{display:none!important}

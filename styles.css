@@ -160,7 +160,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .g div{flex:1;min-width:0}.g b{display:block;font-size:16px;font-weight:600}.g span{font-size:12px;color:var(--g500);font-weight:500}
 
 /* nav */
-.nav{position:absolute;left:0;right:0;bottom:0;z-index:8;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid var(--g300);padding:12px 16px 14px}
+.nav{position:absolute;left:0;right:0;bottom:0;z-index:8;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid var(--g300);padding:12px 16px 24px}
 .nav div{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:var(--g500)}
 .nav div.on{color:var(--tab);font-weight:600}
 
@@ -907,17 +907,18 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 /* focus the Daily reward section after "Answer now" */
 .scroll .sec,.scroll .hero{transition:opacity .35s ease,filter .35s ease}
 .scroll.spot .sec:not(#checkin):not(#experts),.scroll.spot .hero{opacity:.35;filter:saturate(.6)}
-.scroll.spot #checkin .merged{box-shadow:0 0 0 3px rgba(239,105,57,.35),0 12px 28px -12px rgba(239,105,57,.55)!important;transition:box-shadow .3s}
 .merged:not(.claimed) #stAction:not(:empty){display:flex;justify-content:center;padding:0 16px 14px}
-/* no shadow on Daily reward card */
-.merged,.merged.intro{box-shadow:none!important;border:1px solid #D0D5DD!important}
-.merged.attn,.scroll.spot #checkin .merged{box-shadow:none!important;border:1.5px solid var(--brand)!important}
+/* no shadow on Daily reward card. Border stays 1.5px at all times so focus only
+   animates the colour — transitioning border-width would reflow the card contents. */
+.merged,.merged.intro{box-shadow:none!important;border:1.5px solid #D0D5DD!important}
 
 .tag.write span{transition:opacity .22s ease,transform .22s ease}
 .tag.write span.swap{opacity:0;transform:translateY(4px)}
 @media (prefers-reduced-motion:reduce){.tag.write span{transition:none}}
-/* focus: double border */
-.merged.attn,.scroll.spot #checkin .merged{border:1.5px solid var(--brand)!important;outline:3px solid rgba(239,105,57,.22);outline-offset:2px}
+/* focus: border colour only, no halo — Figma 2642:15819 */
+.merged{transition:border-color .35s ease,box-shadow .35s ease}
+.merged.attn,.scroll.spot #checkin .merged{box-shadow:none!important;border-color:var(--brand)!important}
+@media (prefers-reduced-motion:reduce){.merged{transition:none}}
 
 /* calmer: one gentle animation only (coin drop) */
 .kshine,.kspark{animation:none!important;opacity:0!important}
@@ -986,7 +987,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 
 .ob-steps{background:#F9FAFB!important;gap:14px!important}
 .ob-steps i{position:relative;background:#fff!important}
-.ob-steps li:not(:last-child) i::after{content:"";position:absolute;left:50%;top:100%;height:16px;border-left:1.5px dashed #D0D5DD;transform:translateX(-50%)}
+/* dotted connector — Figma 2636:16628. Anchored to the li, not the icon: top:100% on the
+   icon resolves against its padding box, so the dashes started behind the icon border. */
+.ob-steps li{position:relative}
+.ob-steps li:not(:last-child)::after{content:"";position:absolute;left:12px;top:100%;height:14px;border-left:1.5px dashed #D0D5DD;transform:translateX(-50%)}
 .intro-strip{background:none!important;padding:0!important;margin:0 -8px!important;align-self:stretch}
 .intro-strip .m-top,.intro-strip .merged-strip{background:none!important}
 .ob-steps{align-self:center;width:auto!important}
@@ -1120,3 +1124,13 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .toast.show{transform:translateY(0)!important}
 .toast>svg{flex:none;width:16px;height:16px}
 .toast span{flex:1;min-width:0}
+
+/* Figma 2638:16710 — astrologer question is 14 Medium / 24 */
+.merged .her .b,.ck .her .b{line-height:24px!important}
+
+/* Both toasts sit 12px above the bottom nav. --navh is the nav's own height
+   (12px top padding + 41px content + 24px bottom padding + 1px border). Keep in sync. */
+.phone{--navh:78px}
+.toast,.stoast{top:auto!important;bottom:calc(var(--navh) + 12px)!important}
+.stoast{transform:translateY(12px)}
+.stoast.show{transform:none}
