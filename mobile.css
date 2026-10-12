@@ -1,0 +1,55 @@
+/* ===== Mobile web app layer (Vercel build) ===== */
+.tabs,.steps,.alldays{display:none!important}
+.shell{padding:0!important;gap:0!important;min-height:100dvh;justify-content:center}
+.stage{max-width:none!important;gap:0!important}
+.ham{background:none;border:0;padding:6px;margin:-6px;cursor:pointer;color:inherit;display:flex;align-items:center;border-radius:10px}
+.ham:active{background:rgba(0,0,0,.06)}
+/* Real phone: full screen, no fake status bar, respect notch */
+/* fake status bar removed: the real phone status bar is tinted via theme-color (mobile.js) */
+.head{padding-top:env(safe-area-inset-top,0px)}
+.scroll .hero{padding-top:calc(62px + env(safe-area-inset-top,0px))!important}
+@media (max-width:600px){
+  html,body{background:#fff;overscroll-behavior:none}
+  .shell,.stage{width:100%!important;min-height:100dvh}
+  .phone{width:100%!important;max-width:none!important;height:100dvh!important;min-height:100dvh!important;border-radius:0!important;box-shadow:none!important}
+}
+/* Desktop: keep the phone frame centred */
+@media (min-width:601px){
+  .shell{padding:24px 16px!important}
+  .phone{height:min(800px,calc(100dvh - 48px))!important}
+}
+/* Drawer */
+.dscrim{position:absolute;inset:0;background:rgba(16,24,40,.45);z-index:70;opacity:0;transition:opacity .2s}
+.dscrim.on{opacity:1}
+.drawer{position:absolute;top:0;bottom:0;left:0;width:min(312px,86%);z-index:71;background:#fff;transform:translateX(-102%);transition:transform .24s ease;display:flex;flex-direction:column;box-shadow:8px 0 24px -12px rgba(16,24,40,.3)}
+.drawer.on{transform:none}
+.dr-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 14px;border-bottom:1px solid #EAECF0;background:#FFF6EE}
+.dr-head b{display:block;font-size:16px;line-height:24px;color:#101828}
+.dr-head span{font-size:12px;line-height:18px;color:#667085}
+.dr-x{border:0;background:none;font-size:18px;color:#475467;width:36px;height:36px;border-radius:10px;cursor:pointer}
+.dr-body{flex:1;overflow-y:auto;padding:8px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+.dr-lbl{margin:16px 0 8px;font-size:12px;line-height:18px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#98A2B3}
+.dr-flows{display:flex;flex-direction:column;gap:6px}
+.dr-flows button{text-align:left;border:1px solid #EAECF0;background:#fff;border-radius:12px;padding:10px 12px;cursor:pointer;display:flex;gap:10px;align-items:flex-start;font-family:inherit}
+.dr-flows button .n{flex:none;width:22px;height:22px;border-radius:50%;background:#F2F4F7;color:#475467;font-size:12px;font-weight:600;display:grid;place-items:center;margin-top:1px}
+.dr-flows button b{display:block;font-size:14px;line-height:20px;color:#344054;font-weight:600}
+.dr-flows button small{display:block;font-size:12px;line-height:18px;color:#667085;margin-top:2px}
+.dr-flows button.on{border-color:#EF6939;background:#FFF6EE}
+.dr-flows button.on .n{background:#EF6939;color:#fff}
+.dr-steps{display:flex;flex-direction:column;gap:2px}
+.dr-steps .st{display:flex;gap:10px;align-items:flex-start;padding:6px 8px;border-radius:8px;font-size:13px;line-height:18px;color:#667085}
+.dr-steps .st b{flex:none;font-size:11px;font-weight:600;color:#98A2B3;min-width:22px}
+.dr-steps .st.done{color:#344054}
+.dr-steps .st.on{background:#FFF6EE;color:#C4320A;font-weight:600}
+.dr-steps .st.on b{color:#EF6939}
+.dr-ctl{display:flex;flex-direction:column;gap:8px}
+.dr-ctl>button{height:44px;border-radius:12px;border:1px solid #D0D5DD;background:#fff;font:600 14px/20px var(--sans);color:#344054;cursor:pointer}
+.dr-ctl>button#drRestart{border-color:#EF6939;color:#EF6939}
+.dr-tog{display:flex;gap:10px;align-items:center;font-size:14px;color:#344054;padding:6px 2px}
+.dr-tog input{width:18px;height:18px;accent-color:#EF6939}
+@media (prefers-reduced-motion:reduce){.drawer,.dscrim{transition:none}}
+/* overlays that sat under the old 34px fake status bar */
+.stoast{top:calc(22px + env(safe-area-inset-top,0px))!important}
+.push{top:calc(8px + env(safe-area-inset-top,0px))!important}
+.ham{border:0}
+.stoast[hidden]{display:none!important}
