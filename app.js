@@ -52,8 +52,8 @@ const ICON={
 let S;
 const PICK={v:'21',d:'1'};
 ['1','2','3','4','5','6','7'].forEach(k=>{const d=+k;const A=[15,5,7,9,11,13,15];const dates=['Mon 5','Tue 6','Wed 7','Thu 8','Fri 9','Sat 10','Sun 11'];SCEN['d'+k]={date:'Monday, 5 Oct · Krishna Dashami',labels:dates,amts:A,done:d-1,today:d-1,missed:-1,todayLabel:dates[d-1],before:d-1,after:d,reward:A[d-1],next:d<7?A[d]:5,week:d===7};});
-SCEN.d1.first=true;const WB=0;SCEN.reset.amts=[5,5,7,9,11,13,15];SCEN.reset.reward=5;SCEN.reset.next=5;SCEN.reset.prior=15;SCEN.reset.missedAmt=5;
-const earnBox=(D,total)=>`<div class="earn2"><div><span>Earned till now</span><b>₹${total+(D.prior||0)}</b></div><div><span>Missed out</span><b>₹${D.missedAmt||0}</b></div></div>`;
+SCEN.d1.first=true;const WB=0;SCEN.reset.amts=[5,5,7,9,11,13,15];SCEN.reset.reward=5;SCEN.reset.next=5;SCEN.reset.prior=15;
+const earnBox=(D,total)=>`<div class="earn2"><div><span>Earned till now</span><b>₹${total+(D.prior||0)}</b></div></div>`;
 try{const q=new URLSearchParams(location.search);if(q.get('v'))PICK.v=q.get('v');if(q.get('d'))PICK.d=q.get('d');}catch(e){}
 function fresh(flow){
   const permPre=$('permAllowed').checked;
