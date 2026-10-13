@@ -369,8 +369,11 @@ function start(flow){
   $('push').classList.remove('show');$('sheet').className='sheet';KB.classList.remove('show');$('scroll').classList.remove('kb-open');$('scrim').classList.remove('show');$('sys').classList.remove('show');$('bal').textContent='₹0';
   render();renderSteps();
   const sc=$('scroll');sc.style.scrollBehavior='auto';sc.scrollTop=0;sc.style.scrollBehavior='';
+  obArmed=false;
   if(flow==='claim')setStep('A1');
-  if(flow==='j1'){setStep('J0');setTimeout(()=>openSheet('onboard'),400);}
+  // Day 1 holds the onboard sheet back until the free-chat card has been scrolled past, so the
+  // first thing a new user sees is their reading, not a reward ask.
+  if(flow==='j1'){setStep('J0');armOnboardScroll();}
   if(flow==='j3'){setStep('N1');setTimeout(()=>openSheet('onboard'),400);}
   if(flow==='j2'){setStep('K2');setTimeout(showStreakToast,600);}
   $('jnext').hidden=flow!=='j3';
@@ -395,7 +398,15 @@ function nextTry(){
   if(st==='N3'){$('push').classList.remove('show');S.onPush=null;setStep('N4');toast('3 tries done · we stop nudging. Card stays on Today.');return;}
   toast('No more tries · card stays quietly on Today');
 }
-function onScroll(){$('head').classList.toggle('scrolled',$('scroll').scrollTop>40);}
+let obArmed=false;
+function armOnboardScroll(){obArmed=true;}
+// Fires once the free-chat card has been scrolled up into the top quarter of the viewport —
+// or, on a page too short for that, once the user hits the bottom.
+function checkOnboardScroll(){if(!obArmed)return;const sc=$('scroll'),ex=$('experts');if(!ex)return;
+  const past=ex.offsetTop+ex.offsetHeight-sc.scrollTop<sc.clientHeight*.25;
+  const atEnd=sc.scrollTop>=sc.scrollHeight-sc.clientHeight-4;
+  if(past||atEnd){obArmed=false;openSheet('onboard');}}
+function onScroll(){$('head').classList.toggle('scrolled',$('scroll').scrollTop>40);checkOnboardScroll();}
 
 /* ---------- events ---------- */
 document.addEventListener('click',e=>{
