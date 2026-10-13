@@ -95,7 +95,9 @@ function panelParts(D,claimed,scenKey,mini){
   if(V==='12')w=`<div class="p12">${days.map(d=>`<div class="${d.cls} ${d.pop?'pop':''}"><span class="k">${d.dn}</span><span class="dt">${d.dd}</span><span class="v">${d.cls==='done'?TK('#C4320A'):d.cls==='missed'?'Miss':'₹'+d.v}</span></div>`).join('')}</div>`;
   if(V==='21'){const LOCK='<svg width="8" height="9" viewBox="0 0 8 9" fill="none"><rect x=".5" y="3.5" width="7" height="5" rx="1.2" fill="#98A2B3"/><path d="M2 3.8V2.6a2 2 0 0 1 4 0v1.2" stroke="#98A2B3" stroke-width="1.1"/></svg>';
     const ti=days.findIndex(d=>d.cls==='today');const lastDone=days.map(d=>d.cls).lastIndexOf('done');const fillTo=ti>=0?ti:lastDone;
-    w=`<div class="p21" style="--f:${Math.max(0,fillTo)/6}">${days.map((d,i)=>{const sz=i===6?46:[26,28,30,30,33,38][i];const fs=i===6?16:[12,12,12,12,13,14][i];const lift=[0,1,3,5,8,11,15][i];
+    // Figma 2570:16435 — coins grow and lift towards Day 7, but the amount stays Body X Small
+    // 12/Semibold on every one of them.
+    w=`<div class="p21" style="--f:${Math.max(0,fillTo)/6}">${days.map((d,i)=>{const sz=i===6?46:[26,28,30,30,33,38][i];const fs=12;const lift=[0,1,3,5,8,11,15][i];
       const dot=d.cls==='done'?`<i class="dot">${TK('#fff')}</i>`:d.cls==='missed'?'<i class="dot x">✕</i>':'<i class="dot"></i>';
       return `<div class="col ${d.cls} ${i===6?'goal':''} ${d.pop?'pop':''}"><span class="ic"><span class="coin val ${d.cls==='done'?'got':''}" style="--s:${sz}px;--fs:${fs}px;margin-bottom:${lift}px"><span class="cv">${d.cls==='missed'?'<b>–</b>':`<small>₹</small><b>${d.v}</b>`}</span></span></span><span class="tr">${dot}</span><span class="lb2">${d.cls==='missed'?'<b>Miss</b>':mini?`Day ${d.dd}<b>₹${d.v}</b>`:`Day<b>${d.dd}</b>`}</span></div>`;}).join('')}</div>`;if(mini)w=w.replace('class="p21"','class="p21 mini"');}
   if(V==='24'){const ti=days.findIndex(d=>d.cls==='today');const lastDone=days.map(d=>d.cls).lastIndexOf('done');const fillTo=ti>=0?ti:lastDone;
@@ -130,6 +132,9 @@ const CLOCK=`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hi
 const FIRE_S='<span class="fs">🔥</span>';
 const Qtxt='Aaj is relationship ko lekar aap kaisa feel kar rahe hain?';
 const dayNo=D=>D.today-(D.missed>=0?D.missed+1:0)+1;
+/* Figma 2871:17029 — tail under the strip that points from the Daily reward card to today.
+   Columns mirror .p21 so the tail always lands under the live day. */
+const ptr=D=>`<div class="ptr">${Array.from({length:7},(_,i)=>`<span>${i===D.today?'<i></i>':''}</span>`).join('')}</div>`;
 function topPanel(V,D,claimed,key){
   const P=panelParts(D,claimed,key,false);
   const fire=P.n?`<span class="fire">${P.fire}</span>`:'';
@@ -220,7 +225,7 @@ function render(){
   const intro0=S.intro&&!S.claimed;const sh=document.querySelector('#checkin .sh');
   sh.innerHTML=`<span>Daily reward</span>`+(intro0?'':`<button type="button" class="sh-link ${S.remind?'on':''}" data-act="streakRemind">${S.remind?ICON.check('#667085')+' Reminder On':ICON.bell('#667085')+' Remind Me →'}</button>`);
   const intro=S.intro&&!S.claimed;m.classList.toggle('intro',intro);
-  const so=$('streakOut');if(so)so.innerHTML=intro?'':`<div class="merged-strip ${S.claimed?'claimed':''}">${topPanel(V,D,S.claimed,S.scen)}</div>`;
+  const so=$('streakOut');if(so)so.innerHTML=intro?'':`<div class="merged-strip ${S.claimed?'claimed':''}">${topPanel(V,D,S.claimed,S.scen)}</div>`+ptr(D);
   m.innerHTML=((intro||!S.claimed)?introPanel(D):rhHead(D,true))+'<div class="ck" id="ck"></div>'+((!S.claimed&&D.first)?trustFoot():'')+'<div id="stAction"></div>';
   $('stAction').innerHTML='';const _old=`<button class="linkbtn" type="button" data-act="streakRemind">${S.remind?ICON.check('#475467')+' Daily reminder on · 9 AM':ICON.bell('#475467')+' Remind me tomorrow'}</button>`;
   renderCk();renderGuide();requestAnimationFrame(fixStrips);
@@ -231,7 +236,7 @@ function renderCk(){
     h=askHTML(PICK.card,SCEN[S.scen],{sel:S.sel,compose:S.compose,intro:S.intro&&!S.claimed})+
     (S.compose?`<form class="compose" id="cform"><label for="free" class="sr">Apna jawab</label><input id="free" placeholder="Ya apne shabdon mein bataiye…" autocomplete="off"><button class="send" type="submit" aria-label="Bhejein">${FIG.csend}</button></form>`:'');
   }else{
-    h=`<div class="ck-ask"><div class="ask-t"><p class="q">${Qtxt}</p></div></div><div class="thread"><div class="me${S.mood!=null?' chip':''}">${S.mood!=null?FIG['mood'+S.mood]+`<span>${MLAB[S.mood]}</span>`:S.text}</div><div class="her"><span class="mini"></span>`+
+    h=`<div class="ck-ask"><div class="ask-t"><p class="q">${Qtxt}</p></div></div><div class="thread"><div class="me">${S.mood!=null?MLAB[S.mood]:S.text}</div><div class="her"><span class="mini"></span>`+
       (S.phase==='typing'?`<span class="typing" aria-label="Hemali likh rahi hain"><i></i><i></i><i></i></span>`:`<div class="b"><small>Today’s answer by Astro Hemali</small>${S.ans}</div>`)+`</div></div>`+(S.phase==='done'?`<button type="button" class="btn cc" data-act="contChat">Continue Chat</button>`:'');
   }
   $('ck').innerHTML=h;
