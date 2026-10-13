@@ -4,11 +4,11 @@
 .stage{max-width:none!important;gap:0!important}
 .ham{background:none;border:0;padding:6px;margin:-6px;cursor:pointer;color:inherit;display:flex;align-items:center;border-radius:10px}
 .ham:active{background:rgba(0,0,0,.06)}
-/* Real phone: full screen, no fake status bar, respect notch */
-/* fake status bar removed: the real phone status bar is tinted via theme-color (mobile.js) */
-/* Keep the status-bar style "default". black-translucent makes env(safe-area-inset-top)
-   non-zero, which shifts the viewport down (bottom nav stops reaching the bottom) and
-   breaks the .push translateY(-130%) hide. Not worth it just to tint the bar. */
+/* Real phone: full screen, no fake status bar, respect notch.
+   Status bar is plain white and stays that way: apple-mobile-web-app-status-bar-style is
+   "default", so iOS draws an opaque white bar and the web view starts directly underneath it
+   — no gap and no colour band to fix. env(safe-area-inset-top) is 0 in this mode, so the
+   padding below is a no-op on iOS; it only matters if the style ever changes. */
 .head{padding-top:env(safe-area-inset-top,0px)}
 .scroll .hero{padding-top:calc(62px + env(safe-area-inset-top,0px))!important}
 @media (max-width:600px){

@@ -255,24 +255,24 @@ function openSheet(type){
   if(type==='claim'){
     const from=D.missed>=0?D.missed+1:0;let total=0;for(let i=from;i<=D.today;i++)total+=D.amts[i];if(/^d[2-7]$/.test(S.scen))total+=WB;
     const sp=[[-26,8,14],[118,0,12],[-14,74,9],[124,60,10]].map(([x,y,s])=>`<i class="spk" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px"></i>`).join('');
-    sh.innerHTML=`<span class="grab"></span><div class="art"><div class="celebrate">${sp}<div class="coin-lg"><div class="face"><span>₹</span></div></div></div></div>
+    sh.innerHTML=`<div class="art"><div class="celebrate">${sp}<div class="coin-lg"><div class="face"><span>₹</span></div></div></div></div>
     <div class="txt"><h2 id="shTitle">₹${D.reward} added to your wallet</h2></div>
     ${earnBox(D,total,true)}
     ${S.remind?`<div class="rem-line">Reminder on · we'll remind you tomorrow at 9 AM</div><div class="acts"><button class="btn lg" type="button" data-act="close">Okay</button></div>`
       :`<div class="acts"><button class="btn lg" type="button" data-act="claimRemind">${ICON.bell('#fff')} Set Reminder</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`}`;}
   if(type==='intro'){const P=panelParts(D,true,S.scen);
-    sh.innerHTML=`<span class="grab"></span><div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
+    sh.innerHTML=`<div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
     <div class="txt"><h2 id="shTitle">₹${D.reward} added to your wallet 🎉</h2><p>Answer every day to keep earning.</p></div>
     <div class="intro-strip">${P.w}</div>
     <div class="acts"><button class="btn lg" type="button" data-act="claimRemind">${ICON.bell('#fff')} Set Reminder</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`;}
-  if(type==='onboard')sh.innerHTML=`<span class="grab"></span><div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
+  if(type==='onboard')sh.innerHTML=`<div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
     <div class="txt"><h2 id="shTitle">New: Daily reward</h2><p>Get money in your wallet every day</p></div>
     <ol class="ob-steps"><li><i>1</i><span>Answer 1 question</span></li><li><i>2</i><span>Get money in your wallet</span></li><li><i>3</i><span>Come back tomorrow for more</span></li></ol>
     <div class="acts"><button class="btn lg" type="button" data-act="obGo">Answer now</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`;
-  if(type==='nudge')sh.innerHTML=`<span class="grab"></span><div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
+  if(type==='nudge')sh.innerHTML=`<div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
     <div class="txt"><h2 id="shTitle">Your ₹${D.reward} is waiting</h2><p>Answer 1 quick question about your day and get ₹${D.reward} straight in your wallet.</p></div>
     <div class="acts"><button class="btn lg" type="button" data-act="nudgeGo">Answer now</button><button class="btn text" type="button" data-act="nudgeLater">Maybe Later</button></div>`;
-  if(type==='missed')sh.innerHTML=`<span class="grab"></span><div class="art"><div class="coin-lg grey"><div class="face"><span>₹</span></div>${ICON.crack}</div></div>
+  if(type==='missed')sh.innerHTML=`<div class="art"><div class="coin-lg grey"><div class="face"><span>₹</span></div>${ICON.crack}</div></div>
     <div class="txt"><h2 id="shTitle">You missed a day</h2><p>You did not check in yesterday, so your reward starts again from ₹${D.reward}.</p></div>
     <div class="prog"><div class="row"><span>Day 1 of 7</span><span>Today: ₹${D.reward}</span></div><div class="segs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
     <div class="acts"><button class="btn lg" type="button" data-act="missedGo">Restart checkin &amp; get ₹${D.reward}</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`;
@@ -281,7 +281,7 @@ function openSheet(type){
     const sp=[[-26,8,14],[118,0,12],[-14,74,9],[124,60,10]].map(([x,y,s])=>`<i class="spk" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px"></i>`).join('');
     const head=S.claimed?`₹${D.reward} added to your wallet`:'Reminder set';
     const sub=S.claimed?'':`Check in today to get ₹${D.reward}`;
-    sh.innerHTML=`<span class="grab"></span><div class="art"><div class="celebrate">${sp}<div class="coin-lg"><div class="face"><span>₹</span></div></div></div></div>
+    sh.innerHTML=`<div class="art"><div class="celebrate">${sp}<div class="coin-lg"><div class="face"><span>₹</span></div></div></div></div>
     <div class="txt"><h2 id="shTitle">${head}</h2>${sub?`<p>${sub}</p>`:''}</div>
     ${earnBox(D,total,S.claimed)}
     <div class="rem-line" id="remLine">Reminder set · we'll remind you tomorrow at 9 AM</div>

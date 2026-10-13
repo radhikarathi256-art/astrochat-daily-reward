@@ -28,9 +28,7 @@
     if(e.target.id==='drNext'){close();setTimeout(()=>$('jnext').click(),200);return;}
   });
   $('drPerm').addEventListener('change',e=>{$('permAllowed').checked=e.target.checked;$('permAllowed').dispatchEvent(new Event('change'));render();});
-  // Tint the real status bar: hero colour at top, white once the header turns white on scroll
-  const meta=$('themeColor'),head=$('head');const TOP='#FDBA96',SCROLLED='#FFFFFF';
-  const sync=()=>{meta.setAttribute('content',head.classList.contains('scrolled')?SCROLLED:TOP)};
-  new MutationObserver(sync).observe(head,{attributes:true,attributeFilter:['class']});sync();
+  // Status bar stays plain white. iOS ignores theme-color in standalone anyway (it only reads
+  // apple-mobile-web-app-status-bar-style), and on Android a fixed white bar matches the header.
   if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 })();

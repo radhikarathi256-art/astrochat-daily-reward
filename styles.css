@@ -160,14 +160,14 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .g div{flex:1;min-width:0}.g b{display:block;font-size:16px;font-weight:600}.g span{font-size:12px;color:var(--g500);font-weight:500}
 
 /* nav */
-.nav{position:absolute;left:0;right:0;bottom:0;z-index:8;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid var(--g300);padding:12px 16px 24px}
+.nav{position:absolute;left:0;right:0;bottom:0;z-index:8;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid var(--g300);padding:12px 16px calc(14px + env(safe-area-inset-bottom,0px))}
 .nav div{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:var(--g500)}
 .nav div.on{color:var(--tab);font-weight:600}
 
 /* sheet */
 .scrim{position:absolute;inset:0;z-index:20;background:rgba(16,24,40,.45);opacity:0;pointer-events:none;transition:opacity .3s}
 .scrim.show{opacity:1;pointer-events:auto}
-.sheet{position:absolute;left:0;right:0;bottom:0;z-index:21;transform:translateY(105%);transition:transform .45s cubic-bezier(.2,.9,.25,1);background:#fff;border-radius:24px 24px 0 0;padding:0 20px 24px;display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center;overflow:hidden}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:21;transform:translateY(105%);transition:transform .45s cubic-bezier(.2,.9,.25,1);background:#fff;border-radius:24px 24px 0 0;padding:0 20px calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center;overflow:hidden}
 .sheet.show{transform:none}
 /* Figma 2515:11123 — "glow art (ref sheet image)" is a 360x162 block at the top of the
    140px art area: the ring image at 68% over a transparent-to-white fade. */
@@ -177,7 +177,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .sheet .art::after{background:linear-gradient(180deg,rgba(255,255,255,0),#fff)}
 .sheet.grey .art{background:linear-gradient(180deg,#E8EAEE 0,#F4F5F7 55%,#fff 100%)}
 .sheet.grey .art::before{display:none}
-.grab{position:absolute;top:8px;left:50%;width:40px;height:4px;margin-left:-20px;border-radius:2px;background:var(--g200);z-index:1}
+/* drag handle removed from all bottom sheets */
 .sheet .art>*{position:relative;z-index:1}
 .sheet.show .art>*{animation:drop .6s cubic-bezier(.2,1.4,.4,1) both .1s}
 @keyframes drop{from{transform:translateY(-30px) scale(.7);opacity:0}}
@@ -1137,8 +1137,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .toast span{flex:1;min-width:0}
 
 /* Both toasts sit 12px above the bottom nav. --navh is the nav's own height
-   (12px top padding + 41px content + 24px bottom padding + 1px border). Keep in sync. */
-.phone{--navh:78px}
+   (12px top + 41px content + 14px bottom + 1px border) plus the home-indicator inset,
+   so the toast clears the nav on notched iPhones too. Keep in sync with .nav padding. */
+.phone{--navh:calc(68px + env(safe-area-inset-bottom,0px))}
 .toast,.stoast{top:auto!important;bottom:calc(var(--navh) + 12px)!important}
 .stoast{transform:translateY(12px)}
 .stoast.show{transform:none}
