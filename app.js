@@ -63,7 +63,7 @@ SCEN.d1.first=true;const WB=0;SCEN.reset.reward=LADDER[0];SCEN.reset.next=LADDER
 // Figma 2636:16346 / 2544:10776 — the "Tomorrow +₹x · Day n of 7" meta row is hidden in both
 // claim sheets; the amount and the 7 segments already say it.
 const earnBox=(D,total,claimed)=>{const done=claimed?D.today+1:D.today;
-  return `<div class="earn2"><div class="e-top"><span>Earned till now</span><b>₹${total+(D.prior||0)}</b></div>`
+  return `<div class="earn2"><div class="e-top"><span>Total money you've earned</span><b>₹${total+(D.prior||0)}</b></div>`
     +`<div class="e-bar">${[0,1,2,3,4,5,6].map(i=>`<i class="${i<done?'on':''}"></i>`).join('')}</div></div>`;};
 try{const q=new URLSearchParams(location.search);if(q.get('v'))PICK.v=q.get('v');if(q.get('d'))PICK.d=q.get('d');}catch(e){}
 function fresh(flow){
