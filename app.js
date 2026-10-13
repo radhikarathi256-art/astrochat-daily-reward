@@ -48,7 +48,7 @@ const ICON={
   lock:'<svg width="34" height="34" viewBox="0 0 40 40"><path d="M13 18v-4a7 7 0 0 1 14 0v4" stroke="#C88A04" stroke-width="3" fill="none"/><rect x="9" y="17" width="22" height="18" rx="5" fill="#FDB022"/><circle cx="20" cy="25" r="2.4" fill="#8A4F06"/></svg>',
   bellBig:'<svg width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a6 6 0 0 0-6 6v3.5L4.5 16h15L18 12.5V9a6 6 0 0 0-6-6Z" fill="#fff"/><path d="M10 19a2 2 0 0 0 4 0" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>',
   okToast:'<svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" fill="#12B76A"/><path d="M4.6 8.3l2.2 2.2 4.6-4.8" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  crack:'<svg class="crack" viewBox="0 0 40 80" aria-hidden="true"><path d="M25 0 10 26l20 8-25 18 12 10-12 18" stroke="#fff" stroke-width="3" fill="none" stroke-linejoin="round"/></svg>'
+  crack:'<svg class="crack" viewBox="0 0 40 80" aria-hidden="true"><path d="M21 0 15 24l9 7-11 20 7 8-6 21" stroke="#fff" stroke-width="4.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg>'
 };
 
 /* ---------- state ---------- */

@@ -85,7 +85,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .coin-lg{position:relative;width:96px;height:96px;border-radius:50%;display:grid;place-items:center}
 .coin-lg::before{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(255,209,115,.35)}
 .coin-lg .face{position:relative;width:80px;height:80px;border-radius:50%;display:grid;place-items:center;
-  background:radial-gradient(circle at 50% 50%,#FFF1A8 0,#FFC93C 45%,#F08A12 100%);box-shadow:0 8px 24px rgba(253,176,34,.45),inset 0 -4px 6px rgba(184,92,0,.35)}
+  /* Figma 2636:16500 — a soft gold disc, not the hot orange it used to be: cream centre, gold
+     mid, and only a light amber rim. */
+  background:radial-gradient(circle at 50% 46%,#FFF8DF 0,#FEE49E 38%,#F9C65A 70%,#EFA62E 100%);box-shadow:0 6px 18px rgba(253,176,34,.32),inset 0 -3px 5px rgba(184,92,0,.16)}
 .coin-lg .face::before{content:"";position:absolute;inset:10px;border-radius:50%;border:2px solid rgba(255,255,255,.55)}
 /* Figma 2513:10551 — shine is a 26x12 ellipse at 22,7 rotated -30deg */
 .coin-lg .face::after{content:"";position:absolute;width:26px;height:12px;left:15px;top:5px;border-radius:50%;background:rgba(255,255,255,.6);transform:rotate(-30deg)}
@@ -191,8 +193,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .sheet .txt{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:-4px}
 .sheet .txt p{margin:0;max-width:30ch;font-size:14px;line-height:20px;color:var(--g600)}
 .earned{display:inline-flex;align-items:center;gap:6px;background:var(--g100);border-radius:8px;padding:4px 10px;font-size:14px;font-weight:600;color:var(--g700)}
-.prog{width:100%;background:var(--g50);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
-.prog .row{display:flex;justify-content:space-between;font-size:12px;font-weight:600}.prog .row span:last-child{color:var(--brand-ink)}
+/* Figma 2521:13230 — same box as the claim sheet's earnings: Gray/50 behind a 0.6px Gray/300
+   hairline, 12/18 Semibold label over the 6px track, so the box lands at 56px. */
+.prog{width:100%;background:var(--g50);border:.6px solid var(--g300);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.prog .row{display:flex;justify-content:space-between;font-size:12px;line-height:18px;font-weight:600}.prog .row span:last-child{color:var(--brand-ink)}
 .segs{display:flex;gap:4px}.segs i{flex:1;height:6px;border-radius:3px;background:var(--g200)}.segs i.on{background:var(--brand)}
 .note-line{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--g500);margin-top:-6px}
 .acts{width:100%;display:flex;flex-direction:column;gap:8px}
