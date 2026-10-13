@@ -62,7 +62,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .hero{padding:96px 16px 0;background:url(assets/hero.jpg) top center/100% auto no-repeat}
 .greet{text-align:center;display:flex;flex-direction:column;gap:6px}
 .greet h1{margin:0;font-family:var(--serif);font-weight:700;font-size:26px;line-height:31px}
-.greet p{margin:0;font-size:14px;font-weight:500;color:var(--date)}
+/* Figma 2581:16565 — Body Medium 14/Bold in Warning/800, layer at 60% opacity */
+.greet p{margin:0;font-size:14px;line-height:20px;font-weight:700;color:var(--date);opacity:.6}
 .insights{display:flex;flex-direction:column;gap:10px;margin-top:11px}
 .ins{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:10px;font-size:14px;line-height:20px;position:relative;background:transparent}
 .ins::before{content:"";position:absolute;inset:0;border-radius:10px;padding:1px;background:linear-gradient(90deg,#FDECD3,#FBD49D);
