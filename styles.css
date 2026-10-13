@@ -1104,14 +1104,13 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 /* match Figma spacing: 12px title→question, 12px question→chips */
 .hero4.rh + .ck{padding-top:8px!important}
 .hero4.rh + .ck .ck-ask{gap:12px!important}
-/* reward line bold */
-.rh-t .l2,.rh-t:not(:has(.l1)){font-weight:700!important;color:#1D2939}
 .rh-t:not(:has(.l1)){display:block!important}
 /* Continue Chat = library Button md / Primary — Figma 2693:10818 */
 .btn.cc{width:100%!important;height:40px!important;border-radius:12px!important;background:#EF6939!important;border:1px solid #EF6939!important;color:#fff!important;font-size:16px!important;line-height:24px!important;font-weight:600!important;padding:8px 16px!important;box-shadow:0 1px 2px rgba(16,24,40,.05)!important;display:flex;align-items:center;justify-content:center;gap:4px}
-/* sync with Figma card set (Oct 10) */
-.rh-t .l1{font-weight:700!important;color:#344054!important}
-.hero4.rh:has(.cstk):not(:has(.rh-lbl)) .l2 .amt{font-size:16px!important}
+/* Figma 2638:16701 — the card title is one Body large 16/Semibold block in Gray/700 across
+   both lines; only the amount lifts to Bold in Success/700. */
+.rh-t .l1,.rh-t .l2,.rh-t:not(:has(.l1)){font-size:16px!important;line-height:24px!important;font-weight:600!important;color:#344054!important}
+.hero4.rh .rh-t .amt{font-size:16px!important;line-height:24px!important;font-weight:700!important;color:#027A48!important}
 .rh-foot span:last-child{font-size:14px!important;color:#475467!important;font-weight:400!important}
 .rh-foot span:last-child b{font-weight:600!important;color:#344054!important}
 .merged .her .b{flex:1 1 auto!important;max-width:none!important}
