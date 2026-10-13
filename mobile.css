@@ -72,6 +72,11 @@
 .dr-ctl{display:flex;flex-direction:column;gap:8px}
 .dr-ctl>button{height:44px;border-radius:12px;border:1px solid #D0D5DD;background:#fff;font:600 14px/20px var(--sans);color:#344054;cursor:pointer}
 .dr-ctl>button#drRestart{border-color:#EF6939;color:#EF6939}
+.dr-links{display:flex;flex-direction:column;gap:6px}
+.dr-links a{text-decoration:none;border:1px solid #EAECF0;background:#fff;border-radius:12px;padding:10px 12px;display:block}
+.dr-links a:hover{border-color:#D0D5DD;background:#F9FAFB}
+.dr-links a b{display:block;font-size:14px;line-height:20px;color:#344054;font-weight:600}
+.dr-links a small{display:block;font-size:12px;line-height:18px;color:#667085;margin-top:2px}
 .dr-tog{display:flex;gap:10px;align-items:center;font-size:14px;color:#344054;padding:6px 2px}
 .dr-tog input{width:18px;height:18px;accent-color:#EF6939}
 @media (prefers-reduced-motion:reduce){.drawer,.dscrim{transition:none}}
