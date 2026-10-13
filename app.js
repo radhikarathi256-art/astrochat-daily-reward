@@ -307,7 +307,7 @@ function closeSheet(){
   if(type==='reminder'&&S.flow==='j1')setStep('J6');
   if(type==='onboard'&&S.flow==='j1'&&S.step==='J0')setStep('J1');
   if(type==='claim'&&S.flow==='j2')setTimeout(()=>setStep('K5'),300);
-  if(S.phase==='typing'){S.phase='done';renderCk();renderGuide();}
+  if(S.phase==='typing')setTimeout(function(){if(S.phase!=='typing')return;S.phase='done';renderCk();renderGuide();},1200);
 }
 function countUp(to){let v=0;const w=$('wallet');w.classList.add('bump');const iv=setInterval(()=>{v++;$('bal').textContent='₹'+v;if(v>=to){clearInterval(iv);setTimeout(()=>w.classList.remove('bump'),400);}},60);}
 
