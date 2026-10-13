@@ -8,7 +8,9 @@
 <meta name="description" content="AstroChat Daily Reward prototype (Hackfest 2026)">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<!-- black-translucent is the only iOS style that lets the web view extend *behind* the status
+     bar. With "default" iOS reserves an opaque strip and env(safe-area-inset-top) reports 0. -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Daily Reward">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icons/icon-192.png">

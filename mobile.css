@@ -5,10 +5,9 @@
 .ham{background:none;border:0;padding:6px;margin:-6px;cursor:pointer;color:inherit;display:flex;align-items:center;border-radius:10px}
 .ham:active{background:rgba(0,0,0,.06)}
 /* Real phone: full screen, no fake status bar, respect notch.
-   Status bar is plain white and stays that way: apple-mobile-web-app-status-bar-style is
-   "default", so iOS draws an opaque white bar and the web view starts directly underneath it
-   — no gap and no colour band to fix. env(safe-area-inset-top) is 0 in this mode, so the
-   padding below is a no-op on iOS; it only matters if the style ever changes. */
+   apple-mobile-web-app-status-bar-style is "black-translucent", so the web view runs edge to
+   edge behind the status bar and env(safe-area-inset-top) reports the real notch inset. The
+   hero art therefore fills the status bar area; --sbt keeps the header content clear of it. */
 /* --sbt = how much room sits above the header. On a real phone that is the notch inset;
    on desktop it is the height of the fake status bar below. */
 .phone{--sbt:env(safe-area-inset-top,0px)}
