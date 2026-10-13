@@ -15,7 +15,10 @@
 .scroll .hero{padding-top:calc(62px + var(--sbt))!important}
 .sbar{display:none}
 @media (max-width:600px){
-  html,body{background:#fff;overscroll-behavior:none}
+  /* The strip behind a black-translucent status bar shows whatever the page paints there, and
+     Safari in a normal tab samples the body background. Both start as the hero's peach and are
+     flipped to white by mobile.js once the header sticks. */
+  html,body{background:#FDBA96;overscroll-behavior:none}
   .shell,.stage{width:100%!important;min-height:100dvh}
   .phone{width:100%!important;max-width:none!important;height:100dvh!important;min-height:100dvh!important;border-radius:0!important;box-shadow:none!important}
 }

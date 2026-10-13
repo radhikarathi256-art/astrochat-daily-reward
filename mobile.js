@@ -37,7 +37,15 @@
   new MutationObserver(sync).observe($('stepList'),{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
   docked.addEventListener('change',sync);
   sync();
-  // Status bar stays plain white. iOS ignores theme-color in standalone anyway (it only reads
-  // apple-mobile-web-app-status-bar-style), and on Android a fixed white bar matches the header.
+  // The status bar strip takes its colour from the page: the hero's peach at rest, white once the
+  // header sticks. theme-color covers Android and Safari's chrome; the html/body background covers
+  // the area iOS leaves to us under a black-translucent bar.
+  const tc=$('themeColor'),head=document.querySelector('.head');
+  if(tc&&head){
+    const tint=()=>{const c=head.classList.contains('scrolled')?'#FFFFFF':'#FDBA96';
+      tc.setAttribute('content',c);document.documentElement.style.background=c;document.body.style.background=c;};
+    new MutationObserver(tint).observe(head,{attributes:true,attributeFilter:['class']});
+    tint();
+  }
   if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 })();
