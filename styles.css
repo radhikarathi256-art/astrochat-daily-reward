@@ -5,7 +5,7 @@
   --page:#ECE8E4; --ink:#1D2939;
   --g700:#344054; --g600:#475467; --g500:#667085; --g400:#98A2B3; --g300:#D0D5DD; --g200:#EAECF0; --g100:#F2F4F7; --g50:#F9FAFB;
   --brand:#EF6939; --brand-ink:#E8590C; --brand-50:#FFF3EB; --ring:#F97316; --tab:#F28761;
-  --success:#027A48; --date:#890300;
+  --success:#027A48; --date:#93370D; /* Warning/800 — Figma 2581:16565 */
   --v1:#7D58A1; --v2:#4A3460; --v-ink:#6941C6;
   --serif:"Cormorant Infant",Georgia,serif; --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   --shadow-xs:0 1px 2px rgba(16,24,40,.05);
