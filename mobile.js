@@ -17,9 +17,7 @@
   function close(){if(docked.matches)return;scrim.classList.remove('on');drawer.classList.remove('on');drawer.setAttribute('aria-hidden','true');ham.setAttribute('aria-expanded','false');setTimeout(()=>{scrim.hidden=true},240);}
   ham.addEventListener('click',e=>{e.stopPropagation();open();});
   // Hamburger stays usable even when a sheet/scrim is covering it
-  document.addEventListener('click',e=>{if(drawer.classList.contains('on')||e.target.closest('#hamBtn,#drawer'))return;
-    // On desktop #hamBtn is hidden, so its rect is 0,0,0,0 — without this guard every click at
-    // the origin, including synthetic ones, opened the drawer.
+  document.addEventListener('click',e=>{if(docked.matches||drawer.classList.contains('on')||e.target.closest('#hamBtn,#drawer'))return;
     if(!ham.offsetParent)return;const r=ham.getBoundingClientRect();
     if(e.clientX>=r.left-8&&e.clientX<=r.right+8&&e.clientY>=r.top-8&&e.clientY<=r.bottom+8){e.stopPropagation();e.preventDefault();open();}},true);
   scrim.addEventListener('click',close);$('drClose').addEventListener('click',close);

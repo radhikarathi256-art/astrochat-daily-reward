@@ -34,7 +34,8 @@
   /* No hamburger on desktop: the flows menu is docked open as a left rail so it reads as a
      quick navigator. The phone keeps clear of it via the shell's left padding. */
   .shell{padding-left:332px!important}
-  .topnav .ham{display:none}
+  /* The in-app hamburger stays: it is part of the real app header. It just has nothing to
+     open here, because the flows menu is already docked as the rail. */
   .dscrim{display:none!important}
   .dr-x{display:none}
   .drawer{position:fixed!important;top:0;bottom:0;left:0;width:300px;transform:none!important;z-index:30;box-shadow:1px 0 0 #EAECF0;visibility:visible}
