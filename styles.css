@@ -525,9 +525,11 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .p21 .today .coin.val b{font-size:15px}
 .p21 .goal .coin.val b{font-size:17px}
 .p21 .coin{opacity:1!important;filter:none!important}
-/* Figma 2570:16435 — one gold for all seven coins. Today and Day 7 used to fall back to the
-   darker base gradient, which read as a different, duller coin next to the rest of the ladder. */
-.p21 .coin.val{background:radial-gradient(circle at 35% 30%,#FFF1C7 0,#F9D57A 60%,#E9B649 100%)}
+/* Figma 2577:10543 — one gold for all seven coins: a warm amber disc with a darker rim and a
+   soft drop shadow, not the flat buttery yellow it used to be. The Figma coin art hangs ~30% of
+   the coin's own height below its box, which is that shadow. */
+.p21 .coin.val{background:radial-gradient(circle at 35% 28%,#FFEFB8 0,#FBC546 55%,#EFA52A 100%);
+  box-shadow:inset 0 0 0 1px rgba(197,124,10,.6),0 3px 5px rgba(217,119,6,.32)}
 /* Figma 2570:16435 — a collected coin is the same gold coin, just dimmed. */
 .p21 .coin.got{opacity:.5!important}
 .p21 .ic{height:54px!important}
@@ -697,8 +699,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .v-K .sugg-k .tag{background:#fff;border:1px solid #F9C3B0;border-radius:22px;color:#BC3606;font-weight:600;padding:0 14px 0 10px;box-shadow:none}
 .v-K .sugg-k .tag.write{padding:0 4px 0 10px;border-color:var(--g200);color:var(--g600);font-weight:500}
 .v-K .sugg-k .tag:hover{background:#FFF6F1}
-.p21 .today .coin.val{box-shadow:0 0 0 2px #fff,0 0 0 4px #EF6939,0 4px 10px -2px rgba(239,105,57,.5)!important}
-.p21 .goal:not(.today) .coin.val{box-shadow:inset 0 -2px 0 rgba(0,0,0,.1)!important}
+/* Figma 2577:10559 — today keeps the white + Brand ring, over the same amber rim and shadow. */
+.p21 .today .coin.val{box-shadow:inset 0 0 0 1px rgba(197,124,10,.6),0 0 0 2px #fff,0 0 0 4px #EF6939,0 4px 10px -2px rgba(239,105,57,.5)!important}
+.p21 .goal:not(.today) .coin.val{box-shadow:inset 0 0 0 1px rgba(197,124,10,.6),inset 0 -2px 0 rgba(0,0,0,.1),0 4px 7px rgba(217,119,6,.32)!important}
 
 .v-K .sugg-k .tag{padding:0 4px 0 10px!important}
 
