@@ -142,6 +142,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .send{width:36px;height:36px;border-radius:50%;background:none;border:0;padding:0;display:grid;place-items:center;flex:none}
 .thread{display:flex;flex-direction:column;gap:12px}
 .me{align-self:flex-end;max-width:80%;background:#FDF0EB;border-radius:16px 4px 16px 16px;padding:10px 14px;font-size:14px;line-height:20px}
+/* Figma 2638:16794 — a tapped answer echoes back as the chip: face icon + short label */
+.me.chip{display:flex;align-items:center;gap:8px}
+.me.chip svg{display:block;flex:none}
 .her{display:flex;gap:8px;align-items:flex-start}
 .mini{width:28px;height:28px;border-radius:50%;background:url(assets/hemali.png) center/cover;flex:none;border:1.5px solid var(--success)}
 .her .b{background:var(--g50);border:1px solid var(--g200);border-radius:4px 16px 16px 16px;padding:10px 14px;font-size:14px;line-height:20px}

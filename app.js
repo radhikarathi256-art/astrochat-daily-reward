@@ -231,8 +231,8 @@ function renderCk(){
     h=askHTML(PICK.card,SCEN[S.scen],{sel:S.sel,compose:S.compose,intro:S.intro&&!S.claimed})+
     (S.compose?`<form class="compose" id="cform"><label for="free" class="sr">Apna jawab</label><input id="free" placeholder="Ya apne shabdon mein bataiye…" autocomplete="off"><button class="send" type="submit" aria-label="Bhejein">${FIG.csend}</button></form>`:'');
   }else{
-    h=`<div class="ck-ask"><div class="ask-t"><p class="q">${Qtxt}</p></div></div><div class="thread"><div class="me">${S.text}</div><div class="her"><span class="mini"></span>`+
-      (S.phase==='typing'?`<span class="typing" aria-label="Hemali likh rahi hain"><i></i><i></i><i></i></span>`:`<div class="b"><small>Today’s prediction by Astro Hemali</small>${S.ans}</div>`)+`</div></div>`+(S.phase==='done'?`<button type="button" class="btn cc" data-act="contChat">Continue Chat</button>`:'');
+    h=`<div class="ck-ask"><div class="ask-t"><p class="q">${Qtxt}</p></div></div><div class="thread"><div class="me${S.mood!=null?' chip':''}">${S.mood!=null?FIG['mood'+S.mood]+`<span>${MLAB[S.mood]}</span>`:S.text}</div><div class="her"><span class="mini"></span>`+
+      (S.phase==='typing'?`<span class="typing" aria-label="Hemali likh rahi hain"><i></i><i></i><i></i></span>`:`<div class="b"><small>Today’s answer by Astro Hemali</small>${S.ans}</div>`)+`</div></div>`+(S.phase==='done'?`<button type="button" class="btn cc" data-act="contChat">Continue Chat</button>`:'');
   }
   $('ck').innerHTML=h;
 }
@@ -341,8 +341,11 @@ function sysAnswer(allow){
 
 /* ---------- check-in ---------- */
 function goCheck(){const sc=$('scroll');const ex=$('experts'),ck=$('checkin');sc.scrollTo({top:Math.max(0,Math.min(ex?ex.offsetTop:1e9,ck.offsetTop)-62),behavior:'smooth'});const c=$('ck');c.classList.remove('flash');void c.offsetWidth;c.classList.add('flash');sc.classList.remove('spot');void sc.offsetWidth;sc.classList.add('spot');clearTimeout(sc._sp);sc._sp=setTimeout(()=>sc.classList.remove('spot'),2600);const st={missed:'B2',claim:'A1',type:'C1',j2:'K2'}[S.flow];if(st)setStep(st);}
-function answer(text,i){
-  hideStreakToast();S.text=text;S.ans=MOODS[i].a;S.phase='typing';renderCk();setStep({missed:'B3',claim:'A2',type:'C4',j1:'J2',j2:'K3',j3:'N5'}[S.flow]);
+// mood = the tapped chip's index, or null when the user typed their own words. Figma
+// 2638:16794 echoes a tapped answer back as the chip itself (face + short label); typed
+// answers stay as plain text.
+function answer(text,i,mood){
+  hideStreakToast();S.text=text;S.mood=mood?i:null;S.ans=MOODS[i].a;S.phase='typing';renderCk();setStep({missed:'B3',claim:'A2',type:'C4',j1:'J2',j2:'K3',j3:'N5'}[S.flow]);
   // The reward sheet comes first; Hemali's reply and Continue Chat only land once it is closed.
   setTimeout(()=>{openSheet(S.intro?'intro':'claim');setStep({missed:'B4',claim:'A3',type:'C5',j1:'J3',j2:'K4',j3:'N5'}[S.flow]);},900);
 }
@@ -424,9 +427,9 @@ document.addEventListener('click',e=>{
   if(a==='obGo'){closeSheet();if(S.flow==='j1')setStep('J1');setTimeout(goCheck,350);return;}
   if(a==='nudgeGo'){closeSheet();setTimeout(goCheck,350);return;}
   if(a==='nudgeLater'){closeSheet();return;}
-  if(t.dataset.m!==undefined){const i=+t.dataset.m;return answer(SAY[i],i);}
+  if(t.dataset.m!==undefined){const i=+t.dataset.m;return answer(SAY[i],i,true);}
   if(t.dataset.sel!==undefined){S.sel=+t.dataset.sel;renderCk();return;}
-  if(a==='submitSel'&&S.sel!=null){const i=S.sel;return answer(SAY[i],i);}
+  if(a==='submitSel'&&S.sel!=null){const i=S.sel;return answer(SAY[i],i,true);}
   if(a==='goCheck')return goCheck();
   if(a==='write'){S.compose=true;renderCk();const i=$('free');i&&i.focus();return;}
   if(a==='contChat'){toast('Opening chat with Astro Hemali');return;}
