@@ -174,14 +174,11 @@ function askHTML(V,D,st){
 }
 PICK.ih='4';
 const COIN=`<span class="intro-coin" aria-hidden="true">₹</span>`;
-function rhHead(D,claimed){const n=dayNo(D);const dp=n>1?`Day ${n} · `:'';const a=`<span class="amt">₹${D.reward}</span>`;
-  // Figma 2638:16701 / 16733 / 16761 — Day 2+ is "Day N · Answer to get", Day 1 is
-  // "Day 1 · Answer 1 question". The waiting state drops the prefix: "Still waiting for
-  // you" already sits on that line.
-  const l1=n>1?`${dp}Answer to get`:(S.attn?'Answer 1 question':'Day 1 · Answer 1 question');
-  // Figma 2669:126955 — once claimed the title always names the day, including Day 1, so the
-  // streak reads as started. Only the unclaimed Day 1 ask stays prefix-free.
-  const t=claimed?`Day ${n} · ${a} added to your wallet`:`<span class="l1">${l1}</span><span class="l2">Get ${a} in your wallet</span>`;
+function rhHead(D,claimed){const n=dayNo(D);const a=`<span class="amt">₹${D.reward}</span>`;
+  // Figma 2638:16816 — every state names the day: "Day N · Answer to get" / "₹X in your
+  // wallet" while unanswered (the waiting variant keeps the prefix under its warn label),
+  // "Day N · ₹X added to your wallet" once claimed.
+  const t=claimed?`Day ${n} · ${a} added to your wallet`:`<span class="l1">Day ${n} · Answer to get</span><span class="l2">${a} in your wallet</span>`;
   return `<div class="hero4 rh"><div class="rh-l">${S.attn&&!claimed?'<small class="rh-lbl warn">Still waiting for you</small>':''}<b class="rh-t">${t}</b></div>${(!claimed&&D.first)?STACK:''}</div>`;}
 function introPanel(D){
   if(PICK.ih==='4')return rhHead(D,false);
@@ -263,39 +260,41 @@ function openSheet(type){
   if(type==='claim'){
     const from=D.missed>=0?D.missed+1:0;let total=0;for(let i=from;i<=D.today;i++)total+=D.amts[i];if(/^d[2-7]$/.test(S.scen))total+=WB;
     const sp=[[-26,8,14],[118,0,12],[-14,74,9],[124,60,10]].map(([x,y,s])=>`<i class="spk" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px"></i>`).join('');
+    // Figma 2636:16346 / 2544:10776 — title names the day, and when the reminder is already on
+    // that fact sits under the title as the subtitle, not as a line under the earnings box.
     sh.innerHTML=`<div class="art"><div class="celebrate">${sp}<div class="coin-lg"><div class="face"><span>₹</span></div></div></div></div>
-    <div class="txt"><h2 id="shTitle">₹${D.reward} added to your wallet</h2></div>
+    <div class="txt"><h2 id="shTitle">Day ${dayNo(D)} · ₹${D.reward} added to your wallet</h2>${S.remind?'<p>Reminder is on for tomorrow.</p>':''}</div>
     ${earnBox(D,total,true)}
-    ${S.remind?`<div class="rem-line">We'll remind you tomorrow at 9 AM</div><div class="acts"><button class="btn lg" type="button" data-act="close">Okay</button></div>`
+    ${S.remind?`<div class="acts"><button class="btn lg" type="button" data-act="close">Okay</button></div>`
       :`<div class="acts"><button class="btn lg" type="button" data-act="claimRemind">${ICON.bell('#fff')} Set Reminder</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`}`;}
   if(type==='intro'){const P=panelParts(D,true,S.scen);
     sh.innerHTML=`<div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
-    <div class="txt"><h2 id="shTitle">₹${D.reward} added to your wallet 🎉</h2><p>Answer every day to keep earning.</p></div>
+    <div class="txt"><h2 id="shTitle">Day ${dayNo(D)} · ₹${D.reward} added to your wallet</h2></div>
     <div class="intro-strip">${P.w}</div>
     <div class="acts"><button class="btn lg" type="button" data-act="claimRemind">${ICON.bell('#fff')} Set Reminder</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`;}
   // Figma 2636:16496 — the onboard sheet shows the whole ladder instead of a 3-step list.
   // panelParts(..., false) leaves Day 1 as the live day: this sheet runs before the first answer.
   if(type==='onboard'){const P=panelParts(D,false,S.scen);
     sh.innerHTML=`<div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
-    <div class="txt"><h2 id="shTitle">Unlocked, Daily reward !</h2><p>Answer every day to keep earning.</p></div>
+    <div class="txt"><h2 id="shTitle">Answer &amp; Earn every day!</h2><p>Answer today's question to earn.</p></div>
     <div class="intro-strip">${P.w}</div>
     <div class="acts"><button class="btn lg" type="button" data-act="obGo">Answer now</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`;}
   if(type==='nudge')sh.innerHTML=`<div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
-    <div class="txt"><h2 id="shTitle">Your ₹${D.reward} is waiting</h2><p>Answer 1 quick question about your day and get ₹${D.reward} straight in your wallet.</p></div>
+    <div class="txt"><h2 id="shTitle">Your ₹${D.reward} is waiting!</h2><p>Answer a quick question about your day and get ₹${D.reward} in your wallet.</p></div>
     <div class="acts"><button class="btn lg" type="button" data-act="nudgeGo">Answer now</button><button class="btn text" type="button" data-act="nudgeLater">Maybe Later</button></div>`;
   if(type==='missed')sh.innerHTML=`<div class="art"><div class="coin-lg grey"><div class="face"><span>₹</span></div>${ICON.crack}</div></div>
-    <div class="txt"><h2 id="shTitle">You missed a day</h2><p>You did not check in yesterday, so your reward starts again from ₹${D.reward}.</p></div>
-    <div class="prog"><div class="row"><span>Day 1 of 7</span><span>Today: ₹${D.reward}</span></div><div class="segs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-    <div class="acts"><button class="btn lg" type="button" data-act="missedGo">Restart checkin &amp; get ₹${D.reward}</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`;
+    <div class="txt"><h2 id="shTitle">You missed a day</h2><p>You didn't answer yesterday, so your rewards start again from ₹${D.reward}.</p></div>
+    <div class="prog"><div class="row"><span>Day 1 of 7</span></div><div class="segs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="acts"><button class="btn lg" type="button" data-act="missedGo">Start again &amp; get ₹${D.reward}</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`;
   if(type==='reminder'){
     const from=D.missed>=0?D.missed+1:0;let total=0;for(let i=from;i<=D.today;i++)total+=D.amts[i];if(/^d[2-7]$/.test(S.scen))total+=WB;if(!S.claimed)total-=D.reward;
     const sp=[[-26,8,14],[118,0,12],[-14,74,9],[124,60,10]].map(([x,y,s])=>`<i class="spk" style="left:${x}px;top:${y}px;width:${s}px;height:${s}px"></i>`).join('');
-    const head=S.claimed?`₹${D.reward} added to your wallet`:'Reminder set';
+    const head=S.claimed?`Day ${dayNo(D)} · ₹${D.reward} added to your wallet`:'Reminder set';
     const sub=S.claimed?'':`Check in today to get ₹${D.reward}`;
     sh.innerHTML=`<div class="art"><div class="celebrate">${sp}<div class="coin-lg"><div class="face"><span>₹</span></div></div></div></div>
     <div class="txt"><h2 id="shTitle">${head}</h2>${sub?`<p>${sub}</p>`:''}</div>
     ${earnBox(D,total,S.claimed)}
-    <div class="rem-line" id="remLine">We'll remind you tomorrow at 9 AM</div>
+    <div class="rem-line" id="remLine">Reminder is on for tomorrow.</div>
     <div class="acts"><button class="btn lg" type="button" data-act="close">Okay</button></div>`;}
   $('scrim').classList.add('show');requestAnimationFrame(()=>sh.classList.add('show'));
 }
