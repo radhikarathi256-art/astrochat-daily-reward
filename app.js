@@ -232,7 +232,7 @@ function renderCk(){
     (S.compose?`<form class="compose" id="cform"><label for="free" class="sr">Apna jawab</label><input id="free" placeholder="Ya apne shabdon mein bataiye…" autocomplete="off"><button class="send" type="submit" aria-label="Bhejein">${FIG.csend}</button></form>`:'');
   }else{
     h=`<div class="ck-ask"><div class="ask-t"><p class="q">${Qtxt}</p></div></div><div class="thread"><div class="me">${S.text}</div><div class="her"><span class="mini"></span>`+
-      (S.phase==='typing'?`<span class="typing" aria-label="Hemali likh rahi hain"><i></i><i></i><i></i></span>`:`<div class="b"><small>Astro Hemali · today's prediction</small>${S.ans}</div>`)+`</div></div>`+(S.phase==='done'?`<button type="button" class="btn cc" data-act="contChat">Continue Chat<span class="cc-p">· ₹10/min</span></button>`:'');
+      (S.phase==='typing'?`<span class="typing" aria-label="Hemali likh rahi hain"><i></i><i></i><i></i></span>`:`<div class="b"><small>Today’s prediction by Astro Hemali</small>${S.ans}</div>`)+`</div></div>`+(S.phase==='done'?`<button type="button" class="btn cc" data-act="contChat">Continue Chat</button>`:'');
   }
   $('ck').innerHTML=h;
 }

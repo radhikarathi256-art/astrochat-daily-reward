@@ -955,7 +955,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .merged .her{display:flex;gap:8px;align-items:flex-end!important}
 .merged .her .mini{width:28px!important;height:28px!important;flex:none}
 .merged .her .b{max-width:84%;background:#fff!important;border:1px solid #EAECF0!important;color:#344054;font-size:15px!important;line-height:22px!important;padding:10px 14px!important;border-radius:18px 18px 18px 4px!important}
-.merged .her .b small{display:block;font-size:12px!important;line-height:16px;font-weight:600;color:#B54708!important;margin-bottom:4px!important}
+/* Figma I2638:16809;2534:13644 — Brand/700, 12/18 */
+.merged .her .b small{display:block;font-size:12px!important;line-height:18px;font-weight:600;color:#BC3606!important;margin-bottom:4px!important}
 .merged .typing{border-radius:18px 18px 18px 4px!important}
 /* lighter gradient: only a hint at the very top */
 .merged,.merged.intro{background:linear-gradient(180deg,#FFF8F3 0,#FFFFFF 56px)!important}
@@ -984,8 +985,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .intro-strip .m-top,.intro-strip .merged-strip{background:none!important}
 .mini{background:url(assets/hemali-face.png) center/cover!important;border:0!important}
 
-.merged .btn.cc{background:#fff!important;border:1px solid #EF6939!important;color:#EF6939!important;box-shadow:none!important;gap:6px}
-.merged .btn.cc .cc-p{font-weight:600;color:#EF6939}
+/* Figma 2693:10818 — Continue Chat is the filled brand button, no price suffix */
+.merged .btn.cc{background:#EF6939!important;border:1px solid #EF6939!important;color:#fff!important;box-shadow:0 1px 2px rgba(16,24,40,.05)!important;gap:6px}
 
 /* card title: hierarchy by size/weight, no orange */
 .hero4 .h4t b{color:#101828!important}
@@ -1102,9 +1103,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 /* reward line bold */
 .rh-t .l2,.rh-t:not(:has(.l1)){font-weight:700!important;color:#1D2939}
 .rh-t:not(:has(.l1)){display:block!important}
-/* Continue Chat = library Button md / Secondary color */
-.btn.cc{width:100%!important;height:40px!important;border-radius:12px!important;background:#fff!important;border:1px solid #EF6939!important;color:#EF6939!important;font-size:16px!important;line-height:24px!important;font-weight:600!important;padding:8px 16px!important;box-shadow:0 1px 2px rgba(16,24,40,.05)!important;display:flex;align-items:center;justify-content:center;gap:4px}
-.btn.cc .cc-p{font-weight:600!important;color:inherit!important;font-size:16px!important}
+/* Continue Chat = library Button md / Primary — Figma 2693:10818 */
+.btn.cc{width:100%!important;height:40px!important;border-radius:12px!important;background:#EF6939!important;border:1px solid #EF6939!important;color:#fff!important;font-size:16px!important;line-height:24px!important;font-weight:600!important;padding:8px 16px!important;box-shadow:0 1px 2px rgba(16,24,40,.05)!important;display:flex;align-items:center;justify-content:center;gap:4px}
 /* sync with Figma card set (Oct 10) */
 .rh-t .l1{font-weight:700!important;color:#344054!important}
 .hero4.rh:has(.cstk):not(:has(.rh-lbl)) .l2 .amt{font-size:16px!important}
