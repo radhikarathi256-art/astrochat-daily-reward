@@ -1,7 +1,7 @@
 /* Mobile web app layer: hamburger drawer drives the prototype flows */
 (function(){
   const $=id=>document.getElementById(id);
-  const FL=[['j1','Day 1 · first check-in','Intro sheet, answer, ₹15, reminder'],['j2','Day 2 · streak','Toast, answer, claim'],['j3','Not answering','3 tries, then stop'],['missed','Missed a day','Grey sheet once, restart at Day 1']];
+  const FL=[['j1','Day 1 · first check-in','Intro sheet, answer, ₹7, reminder'],['j2','Day 2 · streak','Toast, answer, claim'],['j3','Not answering','3 tries, then stop'],['missed','Missed a day','Grey sheet once, restart at Day 1']];
   const drawer=$('drawer'),scrim=$('dscrim'),ham=$('hamBtn');
   const cur=()=>{const t=document.querySelector('.tabs button[aria-selected="true"]');return t?t.dataset.flow:'j1'};
   function render(){
@@ -11,11 +11,16 @@
     $('drNext').hidden=$('jnext').hidden;
     $('drPerm').checked=$('permAllowed').checked;
   }
-  function open(){render();scrim.hidden=false;requestAnimationFrame(()=>{scrim.classList.add('on');drawer.classList.add('on')});drawer.setAttribute('aria-hidden','false');ham.setAttribute('aria-expanded','true');}
-  function close(){scrim.classList.remove('on');drawer.classList.remove('on');drawer.setAttribute('aria-hidden','true');ham.setAttribute('aria-expanded','false');setTimeout(()=>{scrim.hidden=true},240);}
+  // Desktop docks the menu open as a left rail, so there is nothing to open or close there.
+  const docked=window.matchMedia('(min-width:601px)');
+  function open(){if(docked.matches)return;render();scrim.hidden=false;requestAnimationFrame(()=>{scrim.classList.add('on');drawer.classList.add('on')});drawer.setAttribute('aria-hidden','false');ham.setAttribute('aria-expanded','true');}
+  function close(){if(docked.matches)return;scrim.classList.remove('on');drawer.classList.remove('on');drawer.setAttribute('aria-hidden','true');ham.setAttribute('aria-expanded','false');setTimeout(()=>{scrim.hidden=true},240);}
   ham.addEventListener('click',e=>{e.stopPropagation();open();});
   // Hamburger stays usable even when a sheet/scrim is covering it
-  document.addEventListener('click',e=>{if(drawer.classList.contains('on')||e.target.closest('#hamBtn,#drawer'))return;const r=ham.getBoundingClientRect();
+  document.addEventListener('click',e=>{if(drawer.classList.contains('on')||e.target.closest('#hamBtn,#drawer'))return;
+    // On desktop #hamBtn is hidden, so its rect is 0,0,0,0 — without this guard every click at
+    // the origin, including synthetic ones, opened the drawer.
+    if(!ham.offsetParent)return;const r=ham.getBoundingClientRect();
     if(e.clientX>=r.left-8&&e.clientX<=r.right+8&&e.clientY>=r.top-8&&e.clientY<=r.bottom+8){e.stopPropagation();e.preventDefault();open();}},true);
   scrim.addEventListener('click',close);$('drClose').addEventListener('click',close);
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&drawer.classList.contains('on'))close();});
@@ -28,6 +33,12 @@
     if(e.target.id==='drNext'){close();setTimeout(()=>$('jnext').click(),200);return;}
   });
   $('drPerm').addEventListener('change',e=>{$('permAllowed').checked=e.target.checked;$('permAllowed').dispatchEvent(new Event('change'));render();});
+  // The rail is always visible on desktop, so it has to follow the flow instead of only
+  // rebuilding when the drawer opens. #stepList is rewritten on every flow/step change.
+  function sync(){if(docked.matches){drawer.setAttribute('aria-hidden','false');render();}}
+  new MutationObserver(sync).observe($('stepList'),{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+  docked.addEventListener('change',sync);
+  sync();
   // Status bar stays plain white. iOS ignores theme-color in standalone anyway (it only reads
   // apple-mobile-web-app-status-bar-style), and on Android a fixed white bar matches the header.
   if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));

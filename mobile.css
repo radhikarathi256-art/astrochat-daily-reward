@@ -9,8 +9,12 @@
    "default", so iOS draws an opaque white bar and the web view starts directly underneath it
    — no gap and no colour band to fix. env(safe-area-inset-top) is 0 in this mode, so the
    padding below is a no-op on iOS; it only matters if the style ever changes. */
-.head{padding-top:env(safe-area-inset-top,0px)}
-.scroll .hero{padding-top:calc(62px + env(safe-area-inset-top,0px))!important}
+/* --sbt = how much room sits above the header. On a real phone that is the notch inset;
+   on desktop it is the height of the fake status bar below. */
+.phone{--sbt:env(safe-area-inset-top,0px)}
+.head{padding-top:var(--sbt)}
+.scroll .hero{padding-top:calc(62px + var(--sbt))!important}
+.sbar{display:none}
 @media (max-width:600px){
   html,body{background:#fff;overscroll-behavior:none}
   .shell,.stage{width:100%!important;min-height:100dvh}
@@ -19,7 +23,24 @@
 /* Desktop: keep the phone frame centred */
 @media (min-width:601px){
   .shell{padding:24px 16px!important}
-  .phone{height:min(800px,calc(100dvh - 48px))!important}
+  .phone{height:min(800px,calc(100dvh - 48px))!important;--sbt:44px}
+  /* fake iOS status bar — desktop only, so the frame reads as a phone */
+  .sbar{display:flex;position:absolute;top:0;left:0;right:0;z-index:9;height:44px;align-items:center;justify-content:space-between;padding:0 22px;background:#fff;border-radius:38px 38px 0 0;pointer-events:none}
+  .sb-t{font:600 15px/20px var(--sans);color:#101828;letter-spacing:.01em}
+  .sb-i{display:flex;align-items:center;gap:5px}
+  .sb-i svg{display:block}
+  /* No hamburger on desktop: the flows menu is docked open as a left rail so it reads as a
+     quick navigator. The phone keeps clear of it via the shell's left padding. */
+  .shell{padding-left:332px!important}
+  .topnav .ham{display:none}
+  .dscrim{display:none!important}
+  .dr-x{display:none}
+  .drawer{position:fixed!important;top:0;bottom:0;left:0;width:300px;transform:none!important;z-index:30;box-shadow:1px 0 0 #EAECF0;visibility:visible}
+  .dr-head{padding-top:16px}
+}
+@media (min-width:601px) and (max-width:1000px){
+  .shell{padding-left:316px!important}
+  .drawer{width:284px}
 }
 /* Drawer */
 .dscrim{position:absolute;inset:0;background:rgba(16,24,40,.45);z-index:70;opacity:0;transition:opacity .2s}
@@ -53,6 +74,6 @@
 @media (prefers-reduced-motion:reduce){.drawer,.dscrim{transition:none}}
 /* overlays that sat under the old 34px fake status bar.
    .stoast moved to the bottom (12px above the nav) in styles.css — no top override here. */
-.push{top:calc(8px + env(safe-area-inset-top,0px))!important}
+.push{top:calc(8px + var(--sbt))!important}
 .ham{border:0}
 .stoast[hidden]{display:none!important}

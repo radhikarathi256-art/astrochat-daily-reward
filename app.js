@@ -111,7 +111,8 @@ function panelParts(D,claimed,scenKey,mini){
       return `<div class="${d.cls} ${goal?'goal':''} ${d.pop?'pop':''}"><span class="k">${d.dn}</span><span class="dt">${d.dd}</span><span class="tr">${mark}</span><span class="v">${d.cls==='missed'?'Miss':'₹'+d.v}</span></div>`;}).join('')}</div>`;}
   if(V==='20')w=`<div class="p20">${days.map(d=>`<div class="${d.cls} ${d.pop?'pop':''}"><span class="p">${val(d)}</span><span class="l">${d.cls==='missed'?'Miss':d.lab}</span></div>`).join('')}</div>`;
   const title=pending?`Answer &amp; get <span class="amt">₹${D.reward}</span>`:`<span class="amt">₹${D.reward}</span> added to wallet`;
-  const sub=pending?(scenKey==='reset'?'Missed yesterday · back to Day 1':'Grows every day'):(D.week?'Week complete · new week tomorrow':`Tomorrow: ₹${D.next}`);
+  /* Figma 2512:10588 — no "missed yesterday" line: a restart just reads as a fresh Day 1. */
+  const sub=pending?'Grows every day':(D.week?'Week complete · new week tomorrow':`Tomorrow: ₹${D.next}`);
   const fire=(scenKey==='reset'&&pending?ICON.flameGrey:ICON.flame)+`<b>${n}</b>`;
   return {title,sub,n,w,fire};
 }
@@ -122,6 +123,8 @@ const CARDS=[['A','Title on question'],['B','Tag + question'],['C','Pick, then b
 const UP=`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 12.5V3.8M4.2 7.4 8 3.6l3.8 3.8" stroke="#E8590C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const PEN=`<svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10.5 2.5l3 3L5.5 13.5H2.5v-3l8-8Z" stroke="#667085" stroke-width="1.4" stroke-linejoin="round"/></svg>`;
 const MLAB=['Achha','Okay','Pareshan'];
+/* Figma 2638:16816 — the chip is short, but the sent bubble reads like the user said it. */
+const SAY=['Achha lag raha hai','Theek-thaak hai','Thoda pareshan hoon'];
 const CLOCK=`<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke="#BC3606" stroke-width="1.5"/><path d="M8 4.8V8l2.2 1.4" stroke="#BC3606" stroke-width="1.5" stroke-linecap="round"/></svg>`;
 const FIRE_S='<span class="fs">🔥</span>';
 const Qtxt='Aaj is relationship ko lekar aap kaisa feel kar rahe hain?';
@@ -400,9 +403,9 @@ document.addEventListener('click',e=>{
   if(a==='obGo'){closeSheet();if(S.flow==='j1')setStep('J1');setTimeout(goCheck,350);return;}
   if(a==='nudgeGo'){closeSheet();setTimeout(goCheck,350);return;}
   if(a==='nudgeLater'){closeSheet();return;}
-  if(t.dataset.m!==undefined){const i=+t.dataset.m;return answer(MLAB[i],i);}
+  if(t.dataset.m!==undefined){const i=+t.dataset.m;return answer(SAY[i],i);}
   if(t.dataset.sel!==undefined){S.sel=+t.dataset.sel;renderCk();return;}
-  if(a==='submitSel'&&S.sel!=null){const i=S.sel;return answer(MLAB[i],i);}
+  if(a==='submitSel'&&S.sel!=null){const i=S.sel;return answer(SAY[i],i);}
   if(a==='goCheck')return goCheck();
   if(a==='write'){S.compose=true;renderCk();const i=$('free');i&&i.focus();return;}
   if(a==='contChat'){toast('Opening chat with Astro Hemali');return;}
