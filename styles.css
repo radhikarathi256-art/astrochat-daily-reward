@@ -1128,6 +1128,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 .btn.cc{width:100%!important;height:40px!important;border-radius:12px!important;background:#EF6939!important;border:1px solid #EF6939!important;color:#fff!important;font-size:16px!important;line-height:24px!important;font-weight:600!important;padding:8px 16px!important;box-shadow:0 1px 2px rgba(16,24,40,.05)!important;display:flex;align-items:center;justify-content:center;gap:4px}
 /* Figma 2638:16816 — the card title is Body large 16/Semibold in Gray/700. */
 .rh-t .l1,.rh-t .l2,.rh-t:not(:has(.l1)){font-size:16px!important;line-height:24px!important;font-weight:600!important;color:#344054!important}
+/* Figma 2638:16703 — the two title lines are pulled 3px together, so the ₹ line tucks under
+   "Answer to get" instead of reading as a separate paragraph. */
+.rh-t .l1{margin-bottom:-3px!important}
 /* Claimed ("₹11 added to your wallet") keeps the amount flat, just Bold. */
 .hero4.rh .rh-t:not(:has(.l1)) .amt{font-size:16px!important;line-height:24px!important;font-weight:700!important;color:#344054!important}
 /* Unanswered states lift the amount out: Body XL 18/Bold in Success/700. */
