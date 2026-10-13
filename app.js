@@ -322,7 +322,8 @@ const TIMES=['subah 9 baje'];
 function turnOn(kind){
   S.remind=true;if(S.time==null)S.time=0;
   setStep(STEP[S.flow].ok);render();
-  toast("Reminder set · we'll remind you tomorrow at 9 AM");if(S.intro)setStep(S.flow==='j1'?'J6':'N5');else setStep(STEP[S.flow].on);
+  // Figma 2640:13136
+  toast("You're all set! We'll remind you tomorrow.");if(S.intro)setStep(S.flow==='j1'?'J6':'N5');else setStep(STEP[S.flow].on);
 }
 function pushMsg(title,body,onTap,step){const n=$('push');n.querySelector('.pt').textContent=title;n.querySelector('.pb').textContent=body;n.querySelector('.pw').textContent='9:00 AM';S.onPush=onTap;n.classList.add('show');if(step)setStep(step);clearTimeout(n._t);}
 function showPush(){
@@ -421,7 +422,7 @@ document.addEventListener('click',e=>{
   if(a==='stClose'){const t=$('stoast');t.classList.remove('show');setTimeout(()=>t.hidden=true,250);return;}
   if(a==='close')return closeSheet();
   if(a==='claimRemind')return askPermission('streak',closeSheet);
-  if(a==='streakRemind'){if(S.remind){S.remind=false;render();toast('Reminder removed');return;}return askPermission('streak');}
+  if(a==='streakRemind'){if(S.remind){S.remind=false;render();toast('Reminder turned off.');return;}return askPermission('streak');}
   if(a==='missedGo'){closeSheet();setStep('B2');setTimeout(goCheck,350);return;}
   if(a==='missedRemind')return askPermission('streak',closeSheet);
 });
