@@ -60,10 +60,11 @@ const LADDER=[7,9,11,13,15,17,20];
 SCEN.d1.first=true;const WB=0;SCEN.reset.reward=LADDER[0];SCEN.reset.next=LADDER[1];SCEN.reset.prior=LADDER[0];
 // Figma 2636:16346 — earnings box is 3 rows: total, 7-day progress bar, then
 // "Tomorrow +₹x" / "Day n of 7". The bar replaces the old "come back tomorrow" subtitle.
+// Figma 2636:16346 / 2544:10776 — the "Tomorrow +₹x · Day n of 7" meta row is hidden in both
+// claim sheets; the amount and the 7 segments already say it.
 const earnBox=(D,total,claimed)=>{const done=claimed?D.today+1:D.today;
   return `<div class="earn2"><div class="e-top"><span>Earned till now</span><b>₹${total+(D.prior||0)}</b></div>`
-    +`<div class="e-bar">${[0,1,2,3,4,5,6].map(i=>`<i class="${i<done?'on':''}"></i>`).join('')}</div>`
-    +`<div class="e-meta"><span>Tomorrow +₹${D.next}</span><em>Day ${D.today+1} of 7</em></div></div>`;};
+    +`<div class="e-bar">${[0,1,2,3,4,5,6].map(i=>`<i class="${i<done?'on':''}"></i>`).join('')}</div></div>`;};
 try{const q=new URLSearchParams(location.search);if(q.get('v'))PICK.v=q.get('v');if(q.get('d'))PICK.d=q.get('d');}catch(e){}
 function fresh(flow){
   const permPre=$('permAllowed').checked;
@@ -174,8 +175,10 @@ function askHTML(V,D,st){
 PICK.ih='4';
 const COIN=`<span class="intro-coin" aria-hidden="true">₹</span>`;
 function rhHead(D,claimed){const n=dayNo(D);const dp=n>1?`Day ${n} · `:'';const a=`<span class="amt">₹${D.reward}</span>`;
-  // Figma 2638:16733 — Day 2+ line 1 is "Day N · Answer to get"; day 1 stays "Answer 1 question".
-  const l1=n>1?`${dp}Answer to get`:'Answer 1 question';
+  // Figma 2638:16701 / 16733 / 16761 — Day 2+ is "Day N · Answer to get", Day 1 is
+  // "Day 1 · Answer 1 question". The waiting state drops the prefix: "Still waiting for
+  // you" already sits on that line.
+  const l1=n>1?`${dp}Answer to get`:(S.attn?'Answer 1 question':'Day 1 · Answer 1 question');
   // Figma 2669:126955 — once claimed the title always names the day, including Day 1, so the
   // streak reads as started. Only the unclaimed Day 1 ask stays prefix-free.
   const t=claimed?`Day ${n} · ${a} added to your wallet`:`<span class="l1">${l1}</span><span class="l2">Get ${a} in your wallet</span>`;
@@ -255,7 +258,7 @@ function renderGuide(){
 
 /* ---------- sheets ---------- */
 function openSheet(type){
-  S.sheet=type;const D=SCEN[S.scen];const sh=$('sheet');sh.className='sheet s-'+type+(type==='missed'?' grey':'');
+  S.sheet=type;const D=SCEN[S.scen];const sh=$('sheet');sh.className='sheet'+(type==='missed'?' grey':'');
   const bar=(n,lbl,right)=>`<div class="prog"><div class="row"><span>${lbl}</span><span>${right}</span></div><div class="segs">${[0,1,2,3,4,5,6].map(i=>`<i class="${i<n?'on':''}"></i>`).join('')}</div></div>`;
   if(type==='claim'){
     const from=D.missed>=0?D.missed+1:0;let total=0;for(let i=from;i<=D.today;i++)total+=D.amts[i];if(/^d[2-7]$/.test(S.scen))total+=WB;
@@ -263,17 +266,20 @@ function openSheet(type){
     sh.innerHTML=`<div class="art"><div class="celebrate">${sp}<div class="coin-lg"><div class="face"><span>₹</span></div></div></div></div>
     <div class="txt"><h2 id="shTitle">₹${D.reward} added to your wallet</h2></div>
     ${earnBox(D,total,true)}
-    ${S.remind?`<div class="rem-line">Reminder on · we'll remind you tomorrow at 9 AM</div><div class="acts"><button class="btn lg" type="button" data-act="close">Okay</button></div>`
+    ${S.remind?`<div class="rem-line">We'll remind you tomorrow at 9 AM</div><div class="acts"><button class="btn lg" type="button" data-act="close">Okay</button></div>`
       :`<div class="acts"><button class="btn lg" type="button" data-act="claimRemind">${ICON.bell('#fff')} Set Reminder</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`}`;}
   if(type==='intro'){const P=panelParts(D,true,S.scen);
     sh.innerHTML=`<div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
     <div class="txt"><h2 id="shTitle">₹${D.reward} added to your wallet 🎉</h2><p>Answer every day to keep earning.</p></div>
     <div class="intro-strip">${P.w}</div>
     <div class="acts"><button class="btn lg" type="button" data-act="claimRemind">${ICON.bell('#fff')} Set Reminder</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`;}
-  if(type==='onboard')sh.innerHTML=`<div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
-    <div class="txt"><h2 id="shTitle">New: Daily reward</h2><p>Get money in your wallet every day</p></div>
-    <ol class="ob-steps"><li><i>1</i><span>Answer 1 question</span></li><li><i>2</i><span>Get money in your wallet</span></li><li><i>3</i><span>Come back tomorrow for more</span></li></ol>
-    <div class="acts"><button class="btn lg" type="button" data-act="obGo">Answer now</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`;
+  // Figma 2636:16496 — the onboard sheet shows the whole ladder instead of a 3-step list.
+  // panelParts(..., false) leaves Day 1 as the live day: this sheet runs before the first answer.
+  if(type==='onboard'){const P=panelParts(D,false,S.scen);
+    sh.innerHTML=`<div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
+    <div class="txt"><h2 id="shTitle">Unlocked, Daily reward !</h2><p>Answer every day to keep earning.</p></div>
+    <div class="intro-strip">${P.w}</div>
+    <div class="acts"><button class="btn lg" type="button" data-act="obGo">Answer now</button><button class="btn text" type="button" data-act="close">Maybe Later</button></div>`;}
   if(type==='nudge')sh.innerHTML=`<div class="art"><div class="coin-lg"><div class="face"><span>₹</span></div></div></div>
     <div class="txt"><h2 id="shTitle">Your ₹${D.reward} is waiting</h2><p>Answer 1 quick question about your day and get ₹${D.reward} straight in your wallet.</p></div>
     <div class="acts"><button class="btn lg" type="button" data-act="nudgeGo">Answer now</button><button class="btn text" type="button" data-act="nudgeLater">Maybe Later</button></div>`;
@@ -289,7 +295,7 @@ function openSheet(type){
     sh.innerHTML=`<div class="art"><div class="celebrate">${sp}<div class="coin-lg"><div class="face"><span>₹</span></div></div></div></div>
     <div class="txt"><h2 id="shTitle">${head}</h2>${sub?`<p>${sub}</p>`:''}</div>
     ${earnBox(D,total,S.claimed)}
-    <div class="rem-line" id="remLine">Reminder set · we'll remind you tomorrow at 9 AM</div>
+    <div class="rem-line" id="remLine">We'll remind you tomorrow at 9 AM</div>
     <div class="acts"><button class="btn lg" type="button" data-act="close">Okay</button></div>`;}
   $('scrim').classList.add('show');requestAnimationFrame(()=>sh.classList.add('show'));
 }
