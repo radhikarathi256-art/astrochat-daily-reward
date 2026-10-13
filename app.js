@@ -19,9 +19,9 @@ FLOWS.j3={title:'Not answering · 3 tries',sub:'If a new user does not answer, w
 FLOWS.type={title:'Type own answer · keyboard',sub:'Tap the reply box, type with the keyboard, send. Then claim and set the reminder.',
   steps:[['C1','Tap “Apne shabdon mein likhein”'],['C2','Keyboard up · composer focused'],['C3','Typing answer'],['C4','Sent → Hemali typing'],['C5','Prediction → claim sheet'],['C6','Android permission'],['C7','Allowed · streak celebration'],['C8','Okay · reminder on'],['C9','Next morning · push notification']]};
 const SCEN={
-  day1:{date:'Mon, 5 Oct · Ashwin Krishna 10',labels:['Aaj','Tue 6','Wed 7','Thu 8','Fri 9','Sat 10','Sun 11'],amts:[7,9,11,13,15,17,20],done:0,today:0,missed:-1,todayLabel:'Mon 5',before:0,after:1,reward:7,next:9},
-  normal:{date:'Mon, 5 Oct · Ashwin Krishna 10',labels:['Sat 3','Sun 4','Aaj','Tue 6','Wed 7','Thu 8','Fri 9'],amts:[7,9,11,13,15,17,20],done:2,today:2,missed:-1,todayLabel:'Mon 5',before:2,after:3,reward:11,next:13},
-  reset:{date:'Wed, 7 Oct · Ashwin Krishna 12',labels:['Wed 7','Thu 8','Fri 9','Sat 10','Sun 11','Mon 12','Tue 13'],amts:[7,9,11,13,15,17,20],done:0,today:0,missed:-1,todayLabel:'Wed 7',before:0,after:1,reward:7,next:9}
+  day1:{date:'Mon, 5 Oct · Ashwin Krishna Dashami',labels:['Aaj','Tue 6','Wed 7','Thu 8','Fri 9','Sat 10','Sun 11'],amts:[7,9,11,13,15,17,20],done:0,today:0,missed:-1,todayLabel:'Mon 5',before:0,after:1,reward:7,next:9},
+  normal:{date:'Mon, 5 Oct · Ashwin Krishna Dashami',labels:['Sat 3','Sun 4','Aaj','Tue 6','Wed 7','Thu 8','Fri 9'],amts:[7,9,11,13,15,17,20],done:2,today:2,missed:-1,todayLabel:'Mon 5',before:2,after:3,reward:11,next:13},
+  reset:{date:'Wed, 7 Oct · Ashwin Krishna Dwadashi',labels:['Wed 7','Thu 8','Fri 9','Sat 10','Sun 11','Mon 12','Tue 13'],amts:[7,9,11,13,15,17,20],done:0,today:0,missed:-1,todayLabel:'Wed 7',before:0,after:1,reward:7,next:9}
 };
 const MOODS=[
   {k:'Achha',f:['','#12B76A','','','M6.8 12c1.8 1.8 4.6 1.8 6.4 0'],a:'Aaj Rahul ke saath baat aasaani se hogi. Shaam ko ek chhota sa plan banaiye, rishta aur mazboot hoga.'},
@@ -54,7 +54,7 @@ const PICK={v:'21',d:'1'};
 // Reward ladder (PRD): day 1-7 = 7,9,11,13,15,17,20. Monotonic, so day 7 is the peak and a
 // new cycle starts back at ₹7.
 const LADDER=[7,9,11,13,15,17,20];
-['1','2','3','4','5','6','7'].forEach(k=>{const d=+k;const A=LADDER;const dates=['Mon 5','Tue 6','Wed 7','Thu 8','Fri 9','Sat 10','Sun 11'];SCEN['d'+k]={date:'Mon, 5 Oct · Ashwin Krishna 10',labels:dates,amts:A,done:d-1,today:d-1,missed:-1,todayLabel:dates[d-1],before:d-1,after:d,reward:A[d-1],next:d<7?A[d]:A[0],week:d===7};});
+['1','2','3','4','5','6','7'].forEach(k=>{const d=+k;const A=LADDER;const dates=['Mon 5','Tue 6','Wed 7','Thu 8','Fri 9','Sat 10','Sun 11'];SCEN['d'+k]={date:'Mon, 5 Oct · Ashwin Krishna Dashami',labels:dates,amts:A,done:d-1,today:d-1,missed:-1,todayLabel:dates[d-1],before:d-1,after:d,reward:A[d-1],next:d<7?A[d]:A[0],week:d===7};});
 // Figma 2570:16434 (Day=1, State=Missed) — a restarted streak is just a fresh day 1, so it
 // pays ₹7 again and tomorrow is ₹9.
 SCEN.d1.first=true;const WB=0;SCEN.reset.reward=LADDER[0];SCEN.reset.next=LADDER[1];SCEN.reset.prior=LADDER[0];
