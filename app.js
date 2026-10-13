@@ -183,7 +183,7 @@ function introPanel(D){
   if(PICK.ih!=='3')return '';
   return `<div class="m-top intro-top ih3"><div class="intro-row">${COIN}<b>${S.attn?`Your <span class="amt">₹${D.reward}</span> is still waiting`:`Answer and get <span class="amt">₹${D.reward}</span> in your wallet`}</b></div></div>`;
 }
-function trustFoot(){return `<div class="rh-foot"><span class="avs">${['assets/av1.jpg','assets/av2.jpg','assets/av3.jpg'].map(u=>`<i style="background-image:url(${u})"></i>`).join('')}</span><span><b>₹50K+</b> earned by users</span></div>`;}
+function trustFoot(){return `<div class="rh-foot"><span class="avs">${['assets/av1.jpg','assets/av2.jpg','assets/av3.jpg'].map(u=>`<i style="background-image:url(${u})"></i>`).join('')}</span><span><b>1 Lakh+</b> users claimed reward</span></div>`;}
 function introFoot(D){
   if(PICK.ih!=='1')return '';
   return `<div class="ih1">${COIN}<span>${S.attn?`Your <b>₹${D.reward}</b> is still waiting`:`Answer to get <b>₹${D.reward}</b> in your wallet`}</span></div>`;
