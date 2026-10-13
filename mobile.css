@@ -25,7 +25,9 @@
   .shell{padding:24px 16px!important}
   .phone{height:min(800px,calc(100dvh - 48px))!important;--sbt:44px}
   /* fake iOS status bar — desktop only, so the frame reads as a phone */
-  .sbar{display:flex;position:absolute;top:0;left:0;right:0;z-index:9;height:44px;align-items:center;justify-content:space-between;padding:0 22px;background:#fff;border-radius:38px 38px 0 0;pointer-events:none}
+  /* Transparent like a real viewport-fit=cover app: the hero runs under it, and once the page
+     scrolls the header's own white blur (which is padded by --sbt) shows through behind it. */
+  .sbar{display:flex;position:absolute;top:0;left:0;right:0;z-index:9;height:44px;align-items:center;justify-content:space-between;padding:0 22px;background:transparent;pointer-events:none}
   .sb-t{font:600 15px/20px var(--sans);color:#101828;letter-spacing:.01em}
   .sb-i{display:flex;align-items:center;gap:5px}
   .sb-i svg{display:block}
