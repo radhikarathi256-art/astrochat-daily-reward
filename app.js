@@ -307,6 +307,7 @@ function closeSheet(){
   if(type==='reminder'&&S.flow==='j1')setStep('J6');
   if(type==='onboard'&&S.flow==='j1'&&S.step==='J0')setStep('J1');
   if(type==='claim'&&S.flow==='j2')setTimeout(()=>setStep('K5'),300);
+  if(S.phase==='typing'){S.phase='done';renderCk();renderGuide();}
 }
 function countUp(to){let v=0;const w=$('wallet');w.classList.add('bump');const iv=setInterval(()=>{v++;$('bal').textContent='₹'+v;if(v>=to){clearInterval(iv);setTimeout(()=>w.classList.remove('bump'),400);}},60);}
 
@@ -342,7 +343,8 @@ function sysAnswer(allow){
 function goCheck(){const sc=$('scroll');const ex=$('experts'),ck=$('checkin');sc.scrollTo({top:Math.max(0,Math.min(ex?ex.offsetTop:1e9,ck.offsetTop)-62),behavior:'smooth'});const c=$('ck');c.classList.remove('flash');void c.offsetWidth;c.classList.add('flash');sc.classList.remove('spot');void sc.offsetWidth;sc.classList.add('spot');clearTimeout(sc._sp);sc._sp=setTimeout(()=>sc.classList.remove('spot'),2600);const st={missed:'B2',claim:'A1',type:'C1',j2:'K2'}[S.flow];if(st)setStep(st);}
 function answer(text,i){
   hideStreakToast();S.text=text;S.ans=MOODS[i].a;S.phase='typing';renderCk();setStep({missed:'B3',claim:'A2',type:'C4',j1:'J2',j2:'K3',j3:'N5'}[S.flow]);
-  setTimeout(()=>{S.phase='done';renderCk();renderGuide();setTimeout(()=>{openSheet(S.intro?'intro':'claim');setStep({missed:'B4',claim:'A3',type:'C5',j1:'J3',j2:'K4',j3:'N5'}[S.flow]);},400);},1200);
+  // The reward sheet comes first; Hemali's reply and Continue Chat only land once it is closed.
+  setTimeout(()=>{openSheet(S.intro?'intro':'claim');setStep({missed:'B4',claim:'A3',type:'C5',j1:'J3',j2:'K4',j3:'N5'}[S.flow]);},900);
 }
 
 /* ---------- misc ---------- */
