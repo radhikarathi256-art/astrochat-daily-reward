@@ -253,7 +253,7 @@ function renderGuide(){
 
 /* ---------- sheets ---------- */
 function openSheet(type){
-  S.sheet=type;const D=SCEN[S.scen];const sh=$('sheet');sh.className='sheet'+(type==='missed'?' grey':'');
+  S.sheet=type;const D=SCEN[S.scen];const sh=$('sheet');sh.className='sheet s-'+type+(type==='missed'?' grey':'');
   const bar=(n,lbl,right)=>`<div class="prog"><div class="row"><span>${lbl}</span><span>${right}</span></div><div class="segs">${[0,1,2,3,4,5,6].map(i=>`<i class="${i<n?'on':''}"></i>`).join('')}</div></div>`;
   if(type==='claim'){
     const from=D.missed>=0?D.missed+1:0;let total=0;for(let i=from;i<=D.today;i++)total+=D.amts[i];if(/^d[2-7]$/.test(S.scen))total+=WB;
