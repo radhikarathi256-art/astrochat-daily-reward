@@ -65,8 +65,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-
 /* Figma 2581:16565 — Body Medium 14/Semibold in Warning/700, layer at 90% opacity */
 .greet p{margin:0;font-size:14px;line-height:20px;font-weight:600;color:var(--date);opacity:.9}
 .insights{display:flex;flex-direction:column;gap:10px;margin-top:11px}
-/* Figma 2581:16567 — an insight row is just a 0.6px underline, no ring and no fill. */
-.ins{display:flex;gap:8px;align-items:center;min-height:56px;padding:8px 10px;border-radius:10px;font-size:14px;line-height:20px;background:transparent;border-bottom:.6px solid #FDECD3}
+/* Figma 2581:16560 — an insight row is just a 0.8px underline, no ring and no fill. */
+.ins{display:flex;gap:8px;align-items:center;min-height:56px;padding:8px 10px;border-radius:10px;font-size:14px;line-height:20px;background:transparent;border-bottom:.8px solid #FDECD3}
 .ins svg{flex:none}
 .ai-foot{display:flex;justify-content:flex-end;align-items:center;margin-top:6px;font-size:10px;line-height:14px;font-weight:300;color:#fff}
 /* Figma 2581:16576 — "AI powered" is Light Italic 10px in Warning/400. */
