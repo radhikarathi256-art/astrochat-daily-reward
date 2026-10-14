@@ -20,7 +20,12 @@
      flipped to white by mobile.js once the header sticks. */
   html,body{background:#FDBA96;overscroll-behavior:none}
   .shell,.stage{width:100%!important;min-height:100dvh}
-  .phone{width:100%!important;max-width:none!important;height:100dvh!important;min-height:100dvh!important;border-radius:0!important;box-shadow:none!important}
+  .phone{width:100%!important;max-width:none!important;height:100dvh!important;min-height:100dvh!important;border-radius:0!important;box-shadow:none!important;
+    /* .phone is the full viewport here, so its white would cover html/body everywhere — including
+       the safe-area strip, which then paints white instead of following mobile.js. Paint white only
+       below the inset and leave the strip to html/body. Desktop keeps the plain white frame. */
+    background:transparent!important;
+    background-image:linear-gradient(to bottom,transparent var(--sbt),#fff var(--sbt))!important}
 }
 /* Desktop: keep the phone frame centred */
 @media (min-width:601px){
